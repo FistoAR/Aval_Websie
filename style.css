@@ -253,8 +253,26 @@ textarea {
 
 /* Hero split-screen curved clip path (desktop only) */
 .hero-content-clip {
-    background: rgba(11, 20, 14, 0.45); /* Lighter dark forest green overlay to show background video clearly on mobile */
+    background: rgba(11, 20, 14, 0.6); /* Lighter dark forest green overlay to show background video clearly on mobile and screen widths under 1400px */
     clip-path: none;
+}
+
+#hero-video {
+    transform: none !important;
+}
+
+@media (max-width: 1399px) {
+    .hero-content-clip {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 1399px) {
+    .hero-content-clip {
+        padding-left: 3rem !important;
+        padding-right: 3rem !important;
+    }
 }
 
 /* Hide all divider variants by default */
@@ -262,39 +280,14 @@ textarea {
     display: none;
 }
 
-@media (min-width: 768px) {
+/* Curved split-screen layout only active on screen widths >= 1400px */
+@media (min-width: 1400px) {
     #hero-video {
-        transform: translateX(10%);
+        transform: translateX(10%) !important;
     }
     .hero-split-clip {
         clip-path: url(#curve-split);
     }
-}
-
-/* Small Desktop/Tablet (768px to 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .hero-content-clip {
-        clip-path: url(#content-clip-sm);
-        background: #0b140e;
-    }
-    .sm-divider {
-        display: block;
-    }
-}
-
-/* Medium Desktop (1025px to 1439px) */
-@media (min-width: 1025px) and (max-width: 1439px) {
-    .hero-content-clip {
-        clip-path: url(#content-clip-md);
-        background: #0b140e;
-    }
-    .md-divider {
-        display: block;
-    }
-}
-
-/* Large/Ultrawide Desktop (1440px+) */
-@media (min-width: 1440px) {
     .hero-content-clip {
         clip-path: url(#content-clip-lg);
         background: #0b140e;
@@ -527,5 +520,5 @@ textarea {
 
 /* Ensure contact form is perfectly contained in S-curve background */
 .contact-info {
-    max-width: 500px;
+    max-width: 750px;
 }

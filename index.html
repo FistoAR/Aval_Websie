@@ -322,7 +322,7 @@
                 </div>
 
                 <!-- Top-Right Dark Green tab overlay spanning over menu button -->
-                <div class="absolute right-0 top-0 w-80 h-32 pointer-events-none z-30 hidden md:block">
+                <div class="absolute right-0 top-0 w-80 h-32 pointer-events-none z-30 hidden min-[1400px]:block">
                     <svg class="w-full h-full" viewBox="0 0 300 120" preserveAspectRatio="none" fill="none">
                         <path d="M 50,0 C 120,60 200,30 300,45 L 300,0 Z" fill="#0b140e" />
                     </svg>
@@ -567,14 +567,14 @@
                 <!-- Mobile Overlay: solid dark overlay on smaller screens so text content is readable -->
                 <div class="absolute inset-0 bg-[#0b140e]/90 lg:hidden z-10"></div>
 
-                <!-- Layer 2: Form panel – sits inside the dark area (45% width on desktop, full-screen on mobile) -->
-                <div class="absolute inset-0 z-20 flex items-center justify-start lg:mt-[5%] ml-0 lg:ml-[3%] w-full lg:w-[45%]">
-                    <div class="contact-info w-full space-y-4 opacity-0 translate-y-2 px-6 sm:px-12 md:px-16 lg:px-20 py-8">
+                <!-- Layer 2: Form panel – sits inside the dark area (52% width on desktop, full-screen on mobile) -->
+                <div class="absolute inset-0 z-20 flex items-center justify-start ml-0 lg:ml-[7vw] w-full lg:w-[52%]">
+                    <div class="contact-info w-full space-y-6 opacity-0 translate-y-2 px-6 sm:px-12 md:px-16 lg:px-20 py-8">
 
                         <!-- Label -->
-                        <div class="space-y-2 mb-4 lg:mb-10">
+                        <div class="space-y-2 mb-4 lg:mb-8">
                             <span
-                                class="text-[14px] lg:text-[18px] font-semibold tracking-[0.3em] text-[#d8c3a5] uppercase block">Contact
+                                class="text-[14px] lg:text-[20px] font-semibold tracking-[0.3em] text-[#d8c3a5] uppercase block">Contact
                                 Us</span>
                             <div class="flex items-center gap-2">
                                 <div class="h-px w-[30px] lg:w-[9%] bg-[#b28b5b]/40"></div>
@@ -585,41 +585,41 @@
 
                         <!-- Heading -->
                         <div >
-                            <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Let's Start a</h2>
-                            <h2 class="font-serif text-4xl lg:text-5xl text-[#d8c3a5] italic font-light leading-tight">
+                            <h2 class="font-serif text-5xl lg:text-6xl text-white leading-tight">Let's Start a</h2>
+                            <h2 class="font-serif text-5xl lg:text-6xl text-[#d8c3a5] italic font-light leading-tight">
                                 Conversation</h2>
                         </div>
 
       
                         <!-- Form -->
-                        <form id="minimal-contact-form" class="space-y-4 max-w-lg"
+                        <form id="minimal-contact-form" class="space-y-7 max-w-2xl"
                             onsubmit="event.preventDefault(); alert('Message sent successfully!');">
                             <div
-                                class="flex items-center gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
-                                <i class="fa-regular fa-user text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0"></i>
+                                class="flex items-center gap-4 border border-[#b28b5b]/30 rounded-xl px-5 py-4 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-regular fa-user text-[#d8c3a5]/60 text-sm w-5 flex-shrink-0"></i>
                                 <input type="text" placeholder="Full Name" required
-                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none">
+                                    class="w-full bg-transparent text-base text-white placeholder-white/30 focus:outline-none">
                             </div>
                             <div
-                                class="flex items-center gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
-                                <i class="fa-regular fa-envelope text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0"></i>
+                                class="flex items-center gap-4 border border-[#b28b5b]/30 rounded-xl px-5 py-4 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-regular fa-envelope text-[#d8c3a5]/60 text-sm w-5 flex-shrink-0"></i>
                                 <input type="email" placeholder="Email Address" required
-                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none">
+                                    class="w-full bg-transparent text-base text-white placeholder-white/30 focus:outline-none">
                             </div>
                             <div
-                                class="flex items-center gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
-                                <i class="fa-solid fa-phone text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0"></i>
+                                class="flex items-center gap-4 border border-[#b28b5b]/30 rounded-xl px-5 py-4 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-solid fa-phone text-[#d8c3a5]/60 text-sm w-5 flex-shrink-0"></i>
                                 <input type="tel" placeholder="Phone Number"
-                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none">
+                                    class="w-full bg-transparent text-base text-white placeholder-white/30 focus:outline-none">
                             </div>
                             <div
-                                class="flex items-start gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
-                                <i class="fa-regular fa-comment text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0 mt-1"></i>
-                                <textarea placeholder="Your Message" rows="3" required
-                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none resize-none"></textarea>
+                                class="flex items-start gap-4 border border-[#b28b5b]/30 rounded-xl px-5 py-4 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-regular fa-comment text-[#d8c3a5]/60 text-sm w-5 flex-shrink-0 mt-1"></i>
+                                <textarea placeholder="Your Message" rows="4" required
+                                    class="w-full bg-transparent text-base text-white placeholder-white/30 focus:outline-none resize-none"></textarea>
                             </div>
                             <button type="submit"
-                                class="w-full py-3 rounded-xl font-bold text-[11px] tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-hover hover:brightness-110"
+                                class="w-full py-4 rounded-xl font-bold text-[13px] tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-hover hover:brightness-110"
                                 style="background: linear-gradient(90deg, #9a7340 0%, #ecd0a9 50%, #9a7340 100%); color: #0b140e;">
                                 Send Message &nbsp;→
                             </button>

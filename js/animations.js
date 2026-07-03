@@ -785,13 +785,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: contactSection,
-                start: "top 75%",      // animate in as section enters viewport
-                end: "bottom top",     // keep active until section fully scrolls past
-                // play    = enter ↓   (section enters viewport from below)
-                // none    = leave ↓   (stay visible when scrolling past bottom)
-                // none    = enterBack (stay visible when scrolling back down into it)
-                // reverse = leaveBack (reverse out when scrolling back UP past start)
-                toggleActions: "play none none reverse"
+                start: "top top",      // pin when contact section hits top of screen
+                end: "+=2000",         // pin for 2 screen scrolls
+                pin: true,             // pin the section
+                scrub: 1,              // scrub animations smoothly as user scrolls
+                invalidateOnRefresh: true
             }
         });
 
