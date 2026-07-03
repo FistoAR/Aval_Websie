@@ -1,0 +1,472 @@
+/* Custom Styles for AVAL Website */
+
+/* ── Smooth Scroll ────────────────────────────────── */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar – webkit */
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: #0b140e;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #9a7340, #ecd0a9, #9a7340);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #d8c3a5;
+}
+
+
+/* Selection Styling */
+::selection {
+    background-color: #c5d7ca;
+    /* Sage-200 */
+    color: #121212;
+    /* Charcoal */
+}
+
+/* Custom z-index utilities not in Tailwind defaults */
+.z-25 { z-index: 25; }
+.z-35 { z-index: 35; }
+.z-45 { z-index: 45; }
+
+/* Nav pill styling adjustments for readability */
+#nav-pill {
+    background: rgba(11, 20, 14, 0.88); /* Much darker forest green */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Nav pill entrance animation */
+.nav-pill-anim {
+    animation: navPillDrop 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+}
+@keyframes navPillDrop {
+    from { opacity: 0; transform: translateY(-20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Nav pill state on scroll */
+#nav-pill.scrolled {
+    background: rgba(11, 20, 14, 0.96); /* Solid dark forest green */
+    border-color: rgba(196, 166, 122, 0.3);
+    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.55);
+}
+
+/* Explore Button running border & arrow blow animation */
+.explore-btn-anim::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(196, 166, 122, 0.4),
+        transparent
+    );
+    animation: infiniteShine 4s infinite linear;
+}
+
+@keyframes infiniteShine {
+    0% {
+        left: -150%;
+    }
+    50% {
+        left: 150%;
+    }
+    100% {
+        left: 150%;
+    }
+}
+
+.explore-btn-anim:hover {
+    border-color: #c4a67a;
+    box-shadow: 0 0 20px rgba(196, 166, 122, 0.35);
+    background: rgba(196, 166, 122, 0.05);
+}
+
+.explore-btn-anim:hover .arrow-blow {
+    animation: arrowBlowRight 1.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes arrowBlowRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    30% {
+        transform: translateX(14px);
+        opacity: 0;
+    }
+    31% {
+        transform: translateX(-14px);
+        opacity: 0;
+    }
+    60%, 100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Waving crop animation */
+.waving-crop {
+    transform-origin: bottom left;
+    animation: waveCrops 6s ease-in-out infinite alternate;
+}
+
+@keyframes waveCrops {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(3deg) scale(1.02);
+    }
+    100% {
+        transform: rotate(-1deg) scale(0.99);
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FAF9F6;
+    /* Cream */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #a0bcab;
+    /* Sage-300 */
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #567e65;
+    /* Sage-500 */
+}
+
+/* Basic resets */
+body {
+    cursor: none;
+    /* Hide standard cursor, replaced by custom cursor */
+}
+
+a,
+button,
+select,
+[role="button"],
+.cursor-hover {
+    cursor: pointer !important;
+    /* Show standard pointer cursor on interactive elements */
+}
+
+input,
+textarea {
+    cursor: text !important;
+}
+
+/* Custom Cursor */
+#custom-cursor {
+    width: 8px;
+    height: 8px;
+    background-color: #567e65;
+    /* sage-500 */
+    z-index: 9999;
+}
+
+#custom-cursor-ring {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #567e65;
+    z-index: 9998;
+}
+
+/* Interactive States for Cursor */
+.cursor-hover-active #custom-cursor {
+    transform: translate(-50%, -50%) scale(1.5);
+    background-color: #b28b5b;
+    /* sand-500 */
+}
+
+.cursor-hover-active #custom-cursor-ring {
+    transform: translate(-50%, -50%) scale(1.8);
+    border-color: #b28b5b;
+    background-color: rgba(178, 139, 91, 0.05);
+}
+
+/* Preloader canvas setup */
+#preloader-canvas {
+    background: transparent;
+    pointer-events: auto;
+    /* Enable Paper.js events on preloader screen */
+}
+
+/* Text Masking & Reveal Animations */
+/* .hero-reveal {
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-active .hero-reveal {
+    transform: translateY(0);
+} */
+
+/* Three.js canvas styling */
+#three-canvas-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Horizontal Panel Styling */
+.panel {
+    will-change: transform;
+}
+
+/* Mobile Menu Transitions */
+#mobile-menu.active {
+    transform: translateX(0);
+}
+
+/* Magnetic Element Transitions */
+.magnetic {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Text stroke for editorial style */
+.text-stroke {
+    -webkit-text-stroke: 1px rgba(250, 249, 246, 0.3);
+    color: transparent;
+}
+
+/* Hero split-screen curved clip path (desktop only) */
+.hero-content-clip {
+    background: rgba(11, 20, 14, 0.45); /* Lighter dark forest green overlay to show background video clearly on mobile */
+    clip-path: none;
+}
+
+@media (min-width: 768px) {
+    #hero-video {
+        transform: translateX(15%);
+    }
+    .hero-split-clip {
+        clip-path: url(#curve-split);
+    }
+    .hero-content-clip {
+        clip-path: url(#content-clip);
+        background: #0b140e; /* Solid background on desktop */
+    }
+}
+
+/* Fluid responsive sizes */
+@media (max-width: 768px) {
+    body {
+        cursor: auto;
+        /* Show default cursor on mobile */
+    }
+
+    a,
+    button,
+    select,
+    input,
+    textarea,
+    [role="button"],
+    .cursor-hover {
+        cursor: auto !important;
+    }
+
+    #custom-cursor,
+    #custom-cursor-ring {
+        display: none !important;
+    }
+}
+
+/* Fallback Premium Gradients for Missing Images */
+#ethos-img-1 {
+    background: linear-gradient(135deg, #d7e2d3 0%, #55744e 100%);
+    position: relative;
+}
+
+#ethos-img-1::after {
+    content: "AVAL / RAIN-FED PADDY";
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #FAF9F6;
+    font-weight: 500;
+}
+
+#ethos-img-2 {
+    background: linear-gradient(135deg, #ebdfc5 0%, #A45A3F 100%);
+    position: relative;
+}
+
+#ethos-img-2::after {
+    content: "AVAL / CLAY POT ROASTING";
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #FAF9F6;
+    font-weight: 500;
+}
+
+#prod-img-1 {
+    background: linear-gradient(135deg, #f6f8f5 0%, #b8cbb3 100%);
+    position: relative;
+}
+
+#prod-img-1::after {
+    content: "01 / CLASSIC WHITE FLAKES";
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #384b34;
+    font-weight: 600;
+}
+
+#prod-img-2 {
+    background: linear-gradient(135deg, #ebdfc5 0%, #A45A3F 100%);
+    position: relative;
+}
+
+#prod-img-2::after {
+    content: "02 / ANTIOXIDANT RED FLAKES";
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #FAF9F6;
+    font-weight: 600;
+}
+
+#prod-img-3 {
+    background: linear-gradient(135deg, #b8cbb3 0%, #dac6a1 100%);
+    position: relative;
+}
+
+#prod-img-3::after {
+    content: "03 / MILLETS & GRAINS";
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #384b34;
+    font-weight: 600;
+}
+
+#prod-img-4 {
+    background: linear-gradient(135deg, #c4a67a 0%, #5a3f2d 100%);
+    position: relative;
+}
+
+#prod-img-4::after {
+    content: "04 / HAND-POUNDED POHA";
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #FAF9F6;
+    font-weight: 600;
+}
+
+#grid-img-1 {
+    background: linear-gradient(135deg, #ebefe9 0%, #d7e2d3 100%);
+}
+
+#grid-img-2 {
+    background: linear-gradient(135deg, #ebdfc5 0%, #dac6a1 100%);
+}
+
+#grid-img-3 {
+    background: linear-gradient(135deg, #d7e2d3 0%, #b8cbb3 100%);
+}
+
+#grid-img-4 {
+    background: linear-gradient(135deg, #ebdfc5 0%, #c4a67a 100%);
+}
+
+/* Dropping Section Video Container Style tweaks */
+.dropping-video-wrapper {
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(196, 166, 122, 0.05);
+    transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dropping-video-wrapper:hover {
+    border-color: rgba(196, 166, 122, 0.6);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 50px rgba(196, 166, 122, 0.18);
+}
+
+/* Recipes Section Slider styling */
+.recipes-slider-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.recipes-track {
+    display: flex;
+    gap: 2.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    transition: transform 0.1s ease-out;
+}
+
+/* 3D tilt perspective for cards */
+.recipe-card {
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-card img {
+    pointer-events: none;
+    backface-visibility: hidden;
+    transition: transform 0.5s ease-out;
+}
+
+/* Draggable Cursor custom class overlay */
+.cursor-drag-active #custom-cursor {
+    transform: translate(-50%, -50%) scale(2.2);
+    background-color: #b28b5b; /* sand-500 */
+}
+
+.cursor-drag-active #custom-cursor-ring {
+    transform: translate(-50%, -50%) scale(0.6);
+    border-color: transparent;
+    background-color: rgba(250, 249, 246, 0.95);
+}
+
+.cursor-drag-active #custom-cursor-ring::after {
+    content: 'DRAG';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: bold;
+    color: #0b140e;
+    letter-spacing: 0.05em;
+}

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAL | Pure Taste. Perfect Every Grain.</title>
+    <meta name="description"
+        content="AVAL creates premium organic flattened rice (poha) using traditional, chemical-free methods. Sourced from native rain-fed fields, packed with nutrition.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: {
+                            50: '#f6f8f5',
+                            100: '#ebefe9',
+                            200: '#d7e2d3',
+                            300: '#b8cbb3',
+                            400: '#92af8b',
+                            500: '#6f9167',
+                            600: '#55744e', // Rich Paddy Green
+                            700: '#445c3e',
+                            800: '#384b34',
+                            900: '#2f3e2c',
+                        },
+                        sand: {
+                            50: '#faf9f5',
+                            100: '#f5f0e1',
+                            200: '#ebdfc5',
+                            300: '#dac6a1',
+                            400: '#c4a67a', // Golden Grain
+                            500: '#b28b5b',
+                            600: '#a1764b',
+                            700: '#865f3f',
+                            800: '#6d4d35',
+                            900: '#5a3f2d',
+                        },
+                        charcoal: '#0b140e',
+                        cream: '#FAF9F6',
+                        clay: '#A45A3F',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        widest: '0.25em',
+                        superwide: '0.4em'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- GSAP + Plugins (ScrollTrigger, ScrollTo for smooth anchor scroll) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-cream text-charcoal font-sans overflow-hidden antialiased">
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"
+        class="fixed w-4 h-4 bg-sage-700 rounded-full pointer-events-none z-50 mix-blend-difference hidden md:block transition-transform duration-100 ease-out -translate-x-1/2 -translate-y-1/2">
+    </div>
+    <div id="custom-cursor-ring"
+        class="fixed w-10 h-10 border border-sage-700 rounded-full pointer-events-none z-50 mix-blend-difference hidden md:block transition-all duration-300 ease-out -translate-x-1/2 -translate-y-1/2">
+    </div>
+
+    <!-- 1. Preloader Screen -->
+    <div id="preloader"
+        class="fixed inset-0 bg-[#07130c] z-[999] flex flex-col items-center justify-center select-none">
+        <div class="relative w-full max-w-[600px] h-[300px] flex items-center justify-center">
+            <canvas id="preloader-canvas" class="w-full h-full absolute inset-0"></canvas>
+        </div>
+
+        <div class="w-48 h-[1px] bg-white/10 mt-6 relative overflow-hidden">
+            <div id="preloader-progress"
+                class="absolute left-0 top-0 bottom-0 bg-[#d8c3a5] w-0 transition-all duration-300"></div>
+        </div>
+
+        <p class="text-[10px] tracking-widest text-[#d8c3a5]/60 mt-4 uppercase animate-pulse">Sowing the grains...</p>
+    </div>
+
+    <!-- Navigation Header — Centered Glassmorphism Pill -->
+    <header class="fixed top-0 left-0 w-full z-45 flex items-center justify-between md:justify-center px-6 md:px-4 pt-5 pointer-events-none">
+        <div id="nav-pill" class="pointer-events-auto nav-pill-anim flex items-center gap-6 md:gap-8 px-5 md:px-7 py-3
+                    rounded-full border border-white/10
+                    bg-white/5 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.28)]
+                    opacity-0 -translate-y-5 ml-auto md:ml-auto md:mr-auto">
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center gap-7 text-[14px] tracking-[0.22em] uppercase font-semibold">
+                <a href="#"
+                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    Home
+                    <span
+                        class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#types-showcase"
+                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    Types
+                    <span
+                        class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#scroll-sequence"
+                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    Process
+                    <span
+                        class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#recipes"
+                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    Recipes
+                    <span
+                        class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#contact"
+                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    Contact
+                    <span
+                        class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile hamburger -->
+            <button class="md:hidden text-white/80 hover:text-white transition-colors text-base" id="mobile-menu-btn"
+                aria-label="Open menu">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-charcoal text-cream z-45 translate-x-full transition-transform duration-500 ease-in-out flex flex-col justify-center px-12 space-y-8">
+        <button class="absolute top-6 right-6 text-2xl" id="mobile-menu-close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <a href="#" class="font-serif text-4xl hover:text-sand-300 transition-colors py-2 mobile-nav-link">Home</a>
+        <a href="#types-showcase"
+            class="font-serif text-4xl hover:text-sand-300 transition-colors py-2 mobile-nav-link">Types</a>
+        <a href="#scroll-sequence"
+            class="font-serif text-4xl hover:text-sand-300 transition-colors py-2 mobile-nav-link">Process</a>
+        <a href="#recipes"
+            class="font-serif text-4xl hover:text-sand-300 transition-colors py-2 mobile-nav-link">Recipes</a>
+        <a href="#contact"
+            class="font-serif text-4xl hover:text-sand-300 transition-colors py-2 mobile-nav-link">Contact</a>
+    </div>
+
+    <!-- Scroll Wrapper -->
+    <div id="smooth-wrapper" class="w-full">
+        <main id="smooth-content">
+
+            <!-- 2. Hero Section (Split Layout with Curved Divider) -->
+            <section class="relative w-full h-screen overflow-hidden bg-charcoal z-10 animate-fade-in">
+                <!-- SVG Clip Path Definition for Left Content Area -->
+                <svg class="w-0 h-0 absolute">
+                    <defs>
+                        <clipPath id="content-clip" clipPathUnits="objectBoundingBox">
+                            <path
+                                d="M 0,0 L 0.45,0 C 0.36,0.2 0.50,0.5 0.36,0.8 C 0.28,0.92 0.32,0.98 0.18,1 L 0,1 Z" />
+                        </clipPath>
+                    </defs>
+                </svg>
+
+                <!-- Background Video Area (Full Screen, underneath) -->
+                <div class="absolute inset-0 w-full h-full z-10 overflow-hidden">
+                    <!-- Fallback Luxury Gradient Background / Interactive Fabric canvas overlay -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-charcoal via-sage-900 to-charcoal opacity-95 z-0">
+                    </div>
+
+                    <!-- Background Video -->
+                    <video id="hero-video"
+                        class="w-full h-full object-cover opacity-50 md:opacity-75 scale-105 transition-all duration-1000 object-center md:object-[90%_center]"
+                        muted playsinline>
+                        <source src="assets/video/heroVideo.mp4" type="video/mp4">
+                    </video>
+
+                    <!-- Ambient light sphere for video atmosphere -->
+                    <div
+                        class="absolute w-[60vw] h-[60vw] rounded-full bg-sand-400/10 blur-[100px] bottom-[-10%] right-[-10%] pointer-events-none">
+                    </div>
+                </div>
+
+                <!-- Left Content Area (Full Screen, clipped to curve) -->
+                <div
+                    class="absolute inset-0 w-full h-full z-20 flex flex-col justify-between px-6 sm:px-12 md:pl-20 md:pr-8 pt-32 pb-12 md:py-24 hero-content-clip">
+                    <!-- Ambient light sphere for text contrast -->
+                    <div
+                        class="absolute w-[60vw] h-[60vw] rounded-full bg-sage-500/5 blur-[100px] top-[-10%] left-[-10%] pointer-events-none">
+                    </div>
+
+                    <!-- Bottom-Left Gold Paddy Crop Image -->
+                    <div
+                        class="absolute bottom-0 left-0 w-80 h-64 pointer-events-none opacity-0 z-0 select-none hero-crop-anim">
+                        <img src="assets/Icons/crops.webp" alt="Paddy Crops"
+                            class="w-full h-full object-contain object-left-bottom waving-crop" />
+                    </div>
+
+                    <!-- Top Badge & Tagline Grouped & Centered -->
+                    <div
+                        class="-mt-20 md:-mt-5 select-none ml-[6%] z-10 flex flex-col items-center self-start hero-badge-tag opacity-0">
+                        <img src="assets/Icons/TopBadge.webp" alt="Top Badge"
+                            class="w-auto h-32 md:h-56 object-contain" />
+                        <span
+                            class="-mt-6 md:-mt-14 text-sm md:text-[18px] tracking-[0.25em] text-sand-400 font-bold uppercase block text-center">
+                            NATURAL &bull; PURE &bull; PREMIUM
+                        </span>
+                    </div>
+
+                    <!-- Main Body Section -->
+                    <div class="my-6 z-10 max-w-lg">
+                        <!-- Main Title (Unified Premium Serif Theme with spacious block gaps) -->
+                        <h1
+                            class="font-serif text-3xl md:text-4xl lg:text-[2.6rem] text-cream tracking-wide select-none leading-none font-light">
+                            <span class="block mb-4 hero-title-line opacity-0">Selected paddy,</span>
+                            <span class="block mb-4 italic text-sand-300 hero-title-line opacity-0">processed with
+                                precision,</span>
+                            <span class="block font-normal text-cream hero-title-line opacity-0">served with
+                                tradition.</span>
+                        </h1>
+
+                        <!-- Stats Block (Three Columns, stacked vertically below icons with cropped whitespace) -->
+                        <div class="relative py-6 my-8 z-10 max-w-md">
+                            <!-- Top animated border line -->
+                            <div
+                                class="hero-border-top absolute top-0 left-0 w-full h-px bg-sand-400/25 origin-left scale-x-0">
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4">
+                                <!-- Col 1: 25+ Years of Trust -->
+                                <div class="flex flex-col items-center text-center relative hero-stat-card opacity-0">
+                                    <div class="w-16 h-14 flex items-center justify-center overflow-visible relative">
+                                        <img src="assets/Icons/trust.webp" alt="Trust"
+                                            class="w-28 h-28 max-w-none object-contain absolute" />
+                                    </div>
+                                    <div class="space-y-0.5 -mt-4 z-10 relative">
+                                        <div class="text-cream font-serif text-lg font-bold tracking-wide">25+</div>
+                                        <div
+                                            class="text-[9px] tracking-widest text-sand-400 uppercase font-bold leading-tight">
+                                            YEARS OF<br>TRUST</div>
+                                    </div>
+                                </div>
+
+                                <!-- Col 2: 100% Natural Goodness -->
+                                <div
+                                    class="flex flex-col items-center text-center relative border-l border-sand-400/25 pl-4 hero-stat-card opacity-0">
+                                    <div class="w-16 h-14 flex items-center justify-center overflow-visible relative">
+                                        <img src="assets/Icons/natural.webp" alt="Natural"
+                                            class="w-28 h-28 max-w-none object-contain absolute" />
+                                    </div>
+                                    <div class="space-y-0.5 -mt-4 z-10 relative">
+                                        <div class="text-cream font-serif text-lg font-bold tracking-wide">100%</div>
+                                        <div
+                                            class="text-[9px] tracking-widest text-sand-400 uppercase font-bold leading-tight">
+                                            NATURAL<br>GOODNESS</div>
+                                    </div>
+                                </div>
+
+                                <!-- Col 3: 500+ Retail Stores -->
+                                <div
+                                    class="flex flex-col items-center text-center relative border-l border-sand-400/25 pl-4 hero-stat-card opacity-0">
+                                    <div class="w-16 h-14 flex items-center justify-center overflow-visible relative">
+                                        <img src="assets/Icons/yearsof.webp" alt="Retail"
+                                            class="w-28 h-28 max-w-none object-contain absolute" />
+                                    </div>
+                                    <div class="space-y-0.5 -mt-4 z-10 relative">
+                                        <div class="text-cream font-serif text-lg font-bold tracking-wide">500+</div>
+                                        <div
+                                            class="text-[9px] tracking-widest text-sand-400 uppercase font-bold leading-tight">
+                                            RETAIL<br>STORES</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom animated border line -->
+                            <div
+                                class="hero-border-bottom absolute bottom-0 left-0 w-full h-px bg-sand-400/25 origin-left scale-x-0">
+                            </div>
+                        </div>
+
+                        <!-- Button: EXPLORE COLLECTION with custom border running & blowing arrow hover effects -->
+                        <div class="flex items-center gap-6  hero-reveal-btn mt-6 hero-cta-btn opacity-0">
+                            <a href="#collection"
+                                class="explore-btn-anim magnetic relative inline-flex items-center justify-between w-full max-w-[280px] bg-transparent text-sand-400 hover:text-cream px-6 py-3.5 rounded-md text-[11px] tracking-widest uppercase transition-colors duration-300 cursor-hover font-bold overflow-hidden border border-sand-400/30">
+                                <span class="relative z-10">EXPLORE COLLECTION</span>
+                                <i
+                                    class="fa-solid fa-arrow-right-long text-[11px] relative z-10 transition-transform duration-300 arrow-blow"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-8"></div>
+                </div>
+
+                <!-- Top-Right Dark Green tab overlay spanning over menu button -->
+                <div class="absolute right-0 top-0 w-80 h-32 pointer-events-none z-30 hidden md:block">
+                    <svg class="w-full h-full" viewBox="0 0 300 120" preserveAspectRatio="none" fill="none">
+                        <path d="M 50,0 C 120,60 200,30 300,45 L 300,0 Z" fill="#0b140e" />
+                    </svg>
+                </div>
+
+                <!-- Double curved gold line overlay mapped to content-clip coordinates -->
+                <div class="absolute inset-0 pointer-events-none z-30 hidden md:block hero-divider-anim opacity-0">
+                    <svg class="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
+                        <!-- Main glowing gold stroke — traces exact clip-path edge -->
+                        <path d="M 45,0 C 36,20 50,50 36,80 C 28,92 32,98 18,100" stroke="#c4a67a" stroke-width="0.25"
+                            opacity="0.55" fill="none" />
+                        <!-- Outer blur glow -->
+                        <path d="M 45,0 C 36,20 50,50 36,80 C 28,92 32,98 18,100" stroke="#c4a67a" stroke-width="1.4"
+                            opacity="0.09" fill="none" />
+                    </svg>
+                </div>
+            </section>
+
+            <script>
+                    (function () {
+                        const vid = document.getElementById('hero-video');
+                        if (!vid) return;
+
+                        // Check on timeupdate to cut the last 5 seconds early on mobile
+                        vid.addEventListener('timeupdate', function () {
+                            const isMobile = window.innerWidth < 768;
+                            if (isMobile && vid.duration) {
+                                // If we reach within 5 seconds of the end, loop early
+                                if (vid.currentTime >= vid.duration - 2) {
+                                    vid.currentTime = 0;
+                                    vid.play();
+                                }
+                            }
+                        });
+
+                        vid.addEventListener('ended', function () {
+                            // Hold last frame for 5 seconds on desktop, then replay
+                            setTimeout(function () {
+                                vid.currentTime = 0;
+                                vid.play();
+                            }, 5000);
+                        });
+                    })();
+            </script>
+
+            <section id="types-showcase" class="relative bg-charcoal text-cream overflow-hidden z-10">
+                <div class="sticky-showcase-container relative w-full h-screen">
+                    <div class="relative w-full h-screen flex flex-col justify-center overflow-hidden bg-[#0b140e]">
+                        <!-- Paper.js Floating Leaves Canvas -->
+                        <canvas id="showcase-leaves-canvas"
+                            class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+                        <!-- Slide Stack Container -->
+                        <div class="relative w-full h-full flex items-center justify-center">
+                            <!-- Slide 1: White Thick Aval -->
+                            <div
+                                class="showcase-slide absolute inset-0 w-full h-full flex items-center justify-center z-10">
+                                <div
+                                    class="w-[95%] max-w-6xl aspect-video rounded-2xl overflow-hidden border border-sand-400/20 shadow-2xl relative bg-[#0b140e] will-change-transform">
+                                    <img src="assets/Aval Types/White thick aval.webp" alt="White Thick Aval"
+                                        class="w-full h-full object-contain" />
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: White Thin Aval -->
+                            <div
+                                class="showcase-slide absolute inset-0 w-full h-full flex items-center justify-center z-0">
+                                <div
+                                    class="w-[95%] max-w-6xl aspect-video rounded-2xl overflow-hidden border border-sand-400/20 shadow-2xl relative bg-[#0b140e] will-change-transform">
+                                    <img src="assets/Aval Types/White thin aval.webp" alt="White Thin Aval"
+                                        class="w-full h-full object-contain" />
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: Red Thick Aval -->
+                            <div
+                                class="showcase-slide absolute inset-0 w-full h-full flex items-center justify-center z-0">
+                                <div
+                                    class="w-[95%] max-w-6xl aspect-video rounded-2xl overflow-hidden border border-sand-400/20 shadow-2xl relative bg-[#0b140e] will-change-transform">
+                                    <img src="assets/Aval Types/Red thick aval.webp" alt="Red Thick Aval"
+                                        class="w-full h-full object-contain" />
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: Red Thin Aval -->
+                            <div
+                                class="showcase-slide absolute inset-0 w-full h-full flex items-center justify-center z-0">
+                                <div
+                                    class="w-[95%] max-w-6xl aspect-video rounded-2xl overflow-hidden border border-sand-400/20 shadow-2xl relative bg-[#0b140e] will-change-transform">
+                                    <img src="assets/Aval Types/Red thin aval.webp" alt="Red Thin Aval"
+                                        class="w-full h-full object-contain" />
+                                </div>
+                            </div>
+
+                            <!-- Slide 5: Organic Aval -->
+                            <div
+                                class="showcase-slide absolute inset-0 w-full h-full flex items-center justify-center z-0">
+                                <div
+                                    class="w-[95%] max-w-6xl aspect-video rounded-2xl overflow-hidden border border-sand-400/20 shadow-2xl relative bg-[#0b140e] will-change-transform">
+                                    <img src="assets/Aval Types/Organic aval.webp" alt="Organic Aval"
+                                        class="w-full h-full object-contain" />
+                                </div>
+                            </div>
+
+                            <!-- Slide 6: Roasted Aval -->
+                            <div
+                                class="showcase-slide absolute inset-0 w-full h-full flex items-center justify-center z-0">
+                                <div
+                                    class="w-[95%] max-w-6xl aspect-video rounded-2xl overflow-hidden border border-sand-400/20 shadow-2xl relative bg-[#0b140e] will-change-transform">
+                                    <img src="assets/Aval Types/Rosted aval.webp" alt="Roasted Aval"
+                                        class="w-full h-full object-contain" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide Indicators / Counter -->
+                        <div
+                            class="absolute bottom-8 right-6 md:right-12 z-30 flex items-center gap-4 text-xs font-semibold tracking-widest text-sand-300">
+                            <span id="showcase-counter-current">01</span>
+                            <div class="w-16 h-px bg-sand-400/30 relative">
+                                <div id="showcase-progress-bar"
+                                    class="absolute top-0 left-0 h-full w-1/6 bg-sand-400 transition-all duration-300">
+                                </div>
+                            </div>
+                            <span>06</span>
+                        </div>
+                    </div>
+            </section>
+
+            <!-- 2.6. Scroll Sequence Frame Animation Section -->
+            <section id="scroll-sequence" class="relative bg-charcoal overflow-hidden z-10">
+                <div class="sequence-container relative w-full h-screen">
+                    <div class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-[#0b140e]">
+                        <canvas id="sequence-canvas" class="w-full h-full object-cover"></canvas>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 2.7. Recipes Section (3D Arch Carousel Pinned) -->
+            <section id="recipes"
+                class="relative w-full h-screen bg-[#0b140e] text-cream overflow-hidden z-10 flex items-center justify-center">
+                <!-- Paper.js Floating Leaves Canvas -->
+                <canvas id="recipes-leaves-canvas"
+                    class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+                <!-- Section Title (Top Left) -->
+                <div class="absolute top-12 left-6 md:left-12 z-30">
+                    <span class="text-xs font-semibold tracking-widest text-sand-400 uppercase block mb-1">AVAL
+                        Kitchen</span>
+                    <h2 class="font-serif text-3xl md:text-5xl text-cream leading-tight tracking-wide italic">Recipes
+                        with AVAL</h2>
+                </div>
+
+                <!-- Navigation Buttons (Left and Right Sides Center) -->
+                <button id="recipe-prev"
+                    class="absolute left-6 md:left-12 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full border border-white/20 hover:border-sand-400 hover:bg-cream hover:text-charcoal flex items-center justify-center transition-all duration-300 text-white select-none pointer-events-auto cursor-hover z-30"
+                    aria-label="Previous recipe">
+                    <i class="fa-solid fa-chevron-left text-sm"></i>
+                </button>
+                <button id="recipe-next"
+                    class="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full border border-white/20 hover:border-sand-400 hover:bg-cream hover:text-charcoal flex items-center justify-center transition-all duration-300 text-white select-none pointer-events-auto cursor-hover z-30"
+                    aria-label="Next recipe">
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                </button>
+
+                <!-- Arch Carousel Wrapper -->
+                <div class="recipes-arch-container relative w-full h-full flex items-center justify-center">
+                    <!-- Carousel Track (holds absolute positioned cards) -->
+                    <div
+                        class="recipes-arch-track relative w-full h-full flex items-center justify-center pointer-events-none z-20">
+                        <!-- Card 1 (Lemon) -->
+                        <div
+                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
+                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_58 PM.webp" alt="Lemon Aval"
+                                class="w-full h-full object-cover" draggable="false" />
+                        </div>
+                        <!-- Card 2 (Upma) -->
+                        <div
+                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
+                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_51 PM.webp"
+                                alt="Vegetable Aval Upma" class="w-full h-full object-cover" draggable="false" />
+                        </div>
+                        <!-- Card 3 (Curd) -->
+                        <div
+                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
+                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_46 PM.webp" alt="Curd Aval"
+                                class="w-full h-full object-cover" draggable="false" />
+                        </div>
+                        <!-- Card 4 (Puli) -->
+                        <div
+                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
+                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_14 PM.webp" alt="Puliyaval Aval"
+                                class="w-full h-full object-cover" draggable="false" />
+                        </div>
+                        <!-- Card 5 (Payasam) -->
+                        <div
+                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
+                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_09 PM.webp" alt="Aval Payasam"
+                                class="w-full h-full object-cover" draggable="false" />
+                        </div>
+                        <!-- Card 6 (Sweet) -->
+                        <div
+                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
+                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_03 PM.webp" alt="Sweet Aval"
+                                class="w-full h-full object-cover" draggable="false" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2.8. Contact Section -->
+            <section id="contact" class="relative w-full bg-[#0b140e] text-cream z-10 overflow-hidden"
+                style="height:100vh; min-height:640px;">
+
+                <!-- Layer 0: Full bleed image -->
+                <img src="assets/Jul 2, 2026, 05_35_09 PM.webp" alt="Aval in brass bowl"
+                    class="absolute inset-0 w-full h-full object-cover object-right z-0">
+
+                <!-- Layer 1: SVG dark panel with smooth S-curve on right edge (only visible on desktop to allow space for image) -->
+                <!-- viewBox percentage-based: 100 wide × 100 tall  -->
+                <svg class="absolute inset-0 w-full h-full z-10 pointer-events-none hidden lg:block" viewBox="0 0 100 100"
+                    preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 
+                        Path: left edge → top-right of panel → S-curve → bottom-right of panel → bottom-left
+                        C = cubic bezier: control1x control1y, control2x control2y, endx endy
+                    -->
+                    <path d="
+                        M 0,0
+                        L 46,0
+                        C 38,12  52,25  42,38
+                        C 30,51  48,64  42,78
+                        C 36,88  40,95  44,100
+                        L 0,100
+                        Z
+                    " fill="#0b140e" />
+                </svg>
+
+                <!-- Mobile Overlay: solid dark overlay on smaller screens so text content is readable -->
+                <div class="absolute inset-0 bg-[#0b140e]/90 lg:hidden z-10"></div>
+
+                <!-- Layer 2: Form panel – sits inside the dark area (50% width on desktop, full-screen on mobile) -->
+                <div class="absolute inset-0 z-20 flex items-center justify-start lg:mt-[5%] ml-0 lg:ml-[3%] w-full lg:w-[50%]">
+                    <div class="contact-info w-full space-y-4 opacity-0 translate-y-2 px-6 sm:px-12 md:px-16 lg:px-20 py-8">
+
+                        <!-- Label -->
+                        <div class="space-y-2 mb-4 lg:mb-10">
+                            <span
+                                class="text-[14px] lg:text-[18px] font-semibold tracking-[0.3em] text-[#d8c3a5] uppercase block">Contact
+                                Us</span>
+                            <div class="flex items-center gap-2">
+                                <div class="h-px w-[30px] lg:w-[9%] bg-[#b28b5b]/40"></div>
+                                <i class="fa-solid fa-leaf text-[#d8c3a5]/60 text-[8px]"></i>
+                                <div class="h-px w-[30px] lg:w-[9%] bg-[#b28b5b]/40"></div>
+                            </div>
+                        </div>
+
+                        <!-- Heading -->
+                        <div >
+                            <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Let's Start a</h2>
+                            <h2 class="font-serif text-4xl lg:text-5xl text-[#d8c3a5] italic font-light leading-tight">
+                                Conversation</h2>
+                        </div>
+
+      
+                        <!-- Form -->
+                        <form id="minimal-contact-form" class="space-y-4 max-w-lg"
+                            onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                            <div
+                                class="flex items-center gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-regular fa-user text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0"></i>
+                                <input type="text" placeholder="Full Name" required
+                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none">
+                            </div>
+                            <div
+                                class="flex items-center gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-regular fa-envelope text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0"></i>
+                                <input type="email" placeholder="Email Address" required
+                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none">
+                            </div>
+                            <div
+                                class="flex items-center gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-solid fa-phone text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0"></i>
+                                <input type="tel" placeholder="Phone Number"
+                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none">
+                            </div>
+                            <div
+                                class="flex items-start gap-3 border border-[#b28b5b]/30 rounded-xl px-4 py-3 focus-within:border-[#d8c3a5]/60 transition-colors duration-300 bg-black/20 backdrop-blur-sm">
+                                <i class="fa-regular fa-comment text-[#d8c3a5]/60 text-xs w-4 flex-shrink-0 mt-1"></i>
+                                <textarea placeholder="Your Message" rows="3" required
+                                    class="w-full bg-transparent text-sm text-white placeholder-white/30 focus:outline-none resize-none"></textarea>
+                            </div>
+                            <button type="submit"
+                                class="w-full py-3 rounded-xl font-bold text-[11px] tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-hover hover:brightness-110"
+                                style="background: linear-gradient(90deg, #9a7340 0%, #ecd0a9 50%, #9a7340 100%); color: #0b140e;">
+                                Send Message &nbsp;→
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Footer / Brand Promise -->
+            <footer id="footer"
+                class="bg-charcoal text-cream pt-12 pb-12 px-6 md:px-12 relative z-10 border-t border-white/5">
+                <div class="max-w-7xl mx-auto">
+
+
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-20">
+                        <!-- Left side: Contact Info -->
+                        <div class="contact-details-row space-y-8">
+                            <div class="space-y-1">
+                                <span class="text-xs font-semibold tracking-widest text-sand-300 uppercase block">Get In Touch</span>
+                                <h2 class="font-serif text-3xl md:text-4xl leading-tight">Our Address & Contact</h2>
+                            </div>
+                            <div class="space-y-6 pt-2">
+                                <!-- Factory -->
+                                <div class="flex items-start gap-4">
+                                    <div class="w-9 h-9 rounded-full border border-sand-300/30 flex items-center justify-center flex-shrink-0 text-sand-300 mt-0.5">
+                                        <i class="fa-solid fa-location-dot text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-[10px] font-semibold tracking-wider text-sand-300 uppercase mb-1">Our Factory</h4>
+                                        <p class="text-sm font-light text-sage-300 leading-relaxed">Aval Kitchen Foods<br>Salem, Tamil Nadu<br>636XXX, India</p>
+                                    </div>
+                                </div>
+                                <!-- Phone -->
+                                <div class="flex items-start gap-4">
+                                    <div class="w-9 h-9 rounded-full border border-sand-300/30 flex items-center justify-center flex-shrink-0 text-sand-300 mt-0.5">
+                                        <i class="fa-solid fa-phone text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-[10px] font-semibold tracking-wider text-sand-300 uppercase mb-1">Phone</h4>
+                                        <p class="text-sm font-light text-sage-300 leading-relaxed">+91 81234 56789<br>+91 98765 43210</p>
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="flex items-start gap-4">
+                                    <div class="w-9 h-9 rounded-full border border-sand-300/30 flex items-center justify-center flex-shrink-0 text-sand-300 mt-0.5">
+                                        <i class="fa-solid fa-envelope text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-[10px] font-semibold tracking-wider text-sand-300 uppercase mb-1">Email</h4>
+                                        <p class="text-sm font-light text-sage-300 leading-relaxed">hello@avalkitchen.com<br>support@avalkitchen.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right side: Quicklinks -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 pt-14 lg:pt-14">
+                            <div class="space-y-4">
+                                <h4 class="text-xs tracking-widest uppercase font-semibold text-sand-300">Our Grains
+                                </h4>
+                                <ul class="space-y-2 text-sm text-sage-300 font-light">
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">White Rice
+                                            Aval</a></li>
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Red Rice
+                                            Aval</a></li>
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Millet
+                                            Flakes</a></li>
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Farmer
+                                            Collectives</a></li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4">
+                                <h4 class="text-xs tracking-widest uppercase font-semibold text-sand-300">Traditions
+                                </h4>
+                                <ul class="space-y-2 text-sm text-sage-300 font-light">
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Clay Pot
+                                            Roasting</a></li>
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Sun
+                                            Drying</a></li>
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Hand
+                                            Pounding</a></li>
+                                    <li><a href="#" class="hover:text-cream transition-colors cursor-hover">Organic
+                                            Certifications</a></li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4 col-span-2 sm:col-span-1">
+                                <h4 class="text-xs tracking-widest uppercase font-semibold text-sand-300">Contact</h4>
+                                <ul class="space-y-2 text-sm text-sage-300 font-light">
+                                    <li><a href="mailto:harvest@aval.com"
+                                            class="hover:text-cream transition-colors cursor-hover">harvest@aval.com</a>
+                                    </li>
+                                    <li><a href="tel:+123456789"
+                                            class="hover:text-cream transition-colors cursor-hover">+1 234 567 89</a>
+                                    </li>
+                                    <li class="pt-4 flex gap-4 text-lg">
+                                        <a href="#" class="hover:text-sand-300 transition-colors cursor-hover"><i
+                                                class="fa-brands fa-instagram"></i></a>
+                                        <a href="#" class="hover:text-sand-300 transition-colors cursor-hover"><i
+                                                class="fa-brands fa-pinterest"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom divider -->
+                    <div
+                        class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-sage-400 gap-4">
+                        <p>&copy; 2026 AVAL ORGANICS. All rights reserved.</p>
+                        <p class="tracking-wide">100% Certified Organic & Chemical-Free Products</p>
+                    </div>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- CDNs for JS Animations -->
+    <!-- GSAP & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Paper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.17/paper-full.min.js"></script>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Application Scripts -->
+    <script src="js/preloader.js"></script>
+    <script src="js/three-bg.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Nav pill: darken on scroll
+        const navPill = document.getElementById('nav-pill');
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 40) {
+                navPill.classList.add('scrolled');
+            } else {
+                navPill.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
+            mobileMenuClose.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+            mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+            });
+        }
+    </script>
+</body>
+
+</html>
