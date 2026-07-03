@@ -551,9 +551,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const updateArch = () => {
             const width = window.innerWidth;
-            // Widely spread arch spacing adjustments
-            const xOffsetMultiplier = width >= 1024 ? 350 : (width >= 768 ? 240 : 140);
-            const yOffsetMultiplier = width >= 1024 ? 30 : 15;
+            // Smoothly scale spacing based on screen width to fit all desktop resolutions perfectly
+            const xOffsetMultiplier = Math.min(Math.max(width * 0.22, 140), 420);
+            const yOffsetMultiplier = Math.min(Math.max(width * 0.02, 15), 35);
             
             archCards.forEach((card, i) => {
                 let offset = i - activeIndex;

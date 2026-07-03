@@ -257,16 +257,50 @@ textarea {
     clip-path: none;
 }
 
+/* Hide all divider variants by default */
+.sm-divider, .md-divider, .lg-divider {
+    display: none;
+}
+
 @media (min-width: 768px) {
     #hero-video {
-        transform: translateX(15%);
+        transform: translateX(10%);
     }
     .hero-split-clip {
         clip-path: url(#curve-split);
     }
+}
+
+/* Small Desktop/Tablet (768px to 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
     .hero-content-clip {
-        clip-path: url(#content-clip);
-        background: #0b140e; /* Solid background on desktop */
+        clip-path: url(#content-clip-sm);
+        background: #0b140e;
+    }
+    .sm-divider {
+        display: block;
+    }
+}
+
+/* Medium Desktop (1025px to 1439px) */
+@media (min-width: 1025px) and (max-width: 1439px) {
+    .hero-content-clip {
+        clip-path: url(#content-clip-md);
+        background: #0b140e;
+    }
+    .md-divider {
+        display: block;
+    }
+}
+
+/* Large/Ultrawide Desktop (1440px+) */
+@media (min-width: 1440px) {
+    .hero-content-clip {
+        clip-path: url(#content-clip-lg);
+        background: #0b140e;
+    }
+    .lg-divider {
+        display: block;
     }
 }
 
@@ -469,4 +503,29 @@ textarea {
     font-weight: bold;
     color: #0b140e;
     letter-spacing: 0.05em;
+}
+
+/* Extra responsive rules for all desktop screens */
+.showcase-slide > div {
+    max-height: 72vh;
+}
+
+.recipe-arch-card {
+    max-height: 62vh;
+    max-width: calc(62vh * 9 / 16);
+}
+
+@media (min-height: 900px) {
+    .showcase-slide > div {
+        max-height: 78vh;
+    }
+    .recipe-arch-card {
+        max-height: 68vh;
+        max-width: calc(68vh * 9 / 16);
+    }
+}
+
+/* Ensure contact form is perfectly contained in S-curve background */
+.contact-info {
+    max-width: 500px;
 }

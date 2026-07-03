@@ -175,9 +175,17 @@
                 <!-- SVG Clip Path Definition for Left Content Area -->
                 <svg class="w-0 h-0 absolute">
                     <defs>
-                        <clipPath id="content-clip" clipPathUnits="objectBoundingBox">
-                            <path
-                                d="M 0,0 L 0.45,0 C 0.36,0.2 0.50,0.5 0.36,0.8 C 0.28,0.92 0.32,0.98 0.18,1 L 0,1 Z" />
+                        <!-- Large / Ultrawide Desktop (1440px+) -->
+                        <clipPath id="content-clip-lg" clipPathUnits="objectBoundingBox">
+                            <path d="M 0,0 L 0.45,0 C 0.36,0.2 0.50,0.5 0.36,0.8 C 0.28,0.92 0.32,0.98 0.18,1 L 0,1 Z" />
+                        </clipPath>
+                        <!-- Medium Desktop (1025px - 1439px) -->
+                        <clipPath id="content-clip-md" clipPathUnits="objectBoundingBox">
+                            <path d="M 0,0 L 0.58,0 C 0.48,0.2 0.62,0.5 0.48,0.8 C 0.40,0.92 0.44,0.98 0.30,1 L 0,1 Z" />
+                        </clipPath>
+                        <!-- Small Desktop / Tablet (768px - 1024px) -->
+                        <clipPath id="content-clip-sm" clipPathUnits="objectBoundingBox">
+                            <path d="M 0,0 L 0.70,0 C 0.60,0.2 0.74,0.5 0.60,0.8 C 0.52,0.92 0.56,0.98 0.42,1 L 0,1 Z" />
                         </clipPath>
                     </defs>
                 </svg>
@@ -322,13 +330,20 @@
 
                 <!-- Double curved gold line overlay mapped to content-clip coordinates -->
                 <div class="absolute inset-0 pointer-events-none z-30 hidden md:block hero-divider-anim opacity-0">
-                    <svg class="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
-                        <!-- Main glowing gold stroke — traces exact clip-path edge -->
-                        <path d="M 45,0 C 36,20 50,50 36,80 C 28,92 32,98 18,100" stroke="#c4a67a" stroke-width="0.25"
-                            opacity="0.55" fill="none" />
-                        <!-- Outer blur glow -->
-                        <path d="M 45,0 C 36,20 50,50 36,80 C 28,92 32,98 18,100" stroke="#c4a67a" stroke-width="1.4"
-                            opacity="0.09" fill="none" />
+                    <!-- Large Desktop Divider (1440px+) -->
+                    <svg class="h-full w-full lg-divider" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
+                        <path d="M 45,0 C 36,20 50,50 36,80 C 28,92 32,98 18,100" stroke="#c4a67a" stroke-width="0.25" opacity="0.55" fill="none" />
+                        <path d="M 45,0 C 36,20 50,50 36,80 C 28,92 32,98 18,100" stroke="#c4a67a" stroke-width="1.4" opacity="0.09" fill="none" />
+                    </svg>
+                    <!-- Medium Desktop Divider (1025px - 1439px) -->
+                    <svg class="h-full w-full md-divider" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
+                        <path d="M 58,0 C 48,20 62,50 48,80 C 40,92 44,98 30,100" stroke="#c4a67a" stroke-width="0.25" opacity="0.55" fill="none" />
+                        <path d="M 58,0 C 48,20 62,50 48,80 C 40,92 44,98 30,100" stroke="#c4a67a" stroke-width="1.4" opacity="0.09" fill="none" />
+                    </svg>
+                    <!-- Small Desktop Divider (768px - 1024px) -->
+                    <svg class="h-full w-full sm-divider" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none">
+                        <path d="M 70,0 C 60,20 74,50 60,80 C 52,92 56,98 42,100" stroke="#c4a67a" stroke-width="0.25" opacity="0.55" fill="none" />
+                        <path d="M 70,0 C 60,20 74,50 60,80 C 52,92 56,98 42,100" stroke="#c4a67a" stroke-width="1.4" opacity="0.09" fill="none" />
                     </svg>
                 </div>
             </section>
@@ -538,16 +553,12 @@
                 <!-- viewBox percentage-based: 100 wide × 100 tall  -->
                 <svg class="absolute inset-0 w-full h-full z-10 pointer-events-none hidden lg:block" viewBox="0 0 100 100"
                     preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- 
-                        Path: left edge → top-right of panel → S-curve → bottom-right of panel → bottom-left
-                        C = cubic bezier: control1x control1y, control2x control2y, endx endy
-                    -->
                     <path d="
                         M 0,0
-                        L 46,0
-                        C 38,12  52,25  42,38
-                        C 30,51  48,64  42,78
-                        C 36,88  40,95  44,100
+                        L 56,0
+                        C 48,12  62,25  54,38
+                        C 42,51  60,64  54,78
+                        C 46,88  50,95  54,100
                         L 0,100
                         Z
                     " fill="#0b140e" />
@@ -556,8 +567,8 @@
                 <!-- Mobile Overlay: solid dark overlay on smaller screens so text content is readable -->
                 <div class="absolute inset-0 bg-[#0b140e]/90 lg:hidden z-10"></div>
 
-                <!-- Layer 2: Form panel – sits inside the dark area (50% width on desktop, full-screen on mobile) -->
-                <div class="absolute inset-0 z-20 flex items-center justify-start lg:mt-[5%] ml-0 lg:ml-[3%] w-full lg:w-[50%]">
+                <!-- Layer 2: Form panel – sits inside the dark area (45% width on desktop, full-screen on mobile) -->
+                <div class="absolute inset-0 z-20 flex items-center justify-start lg:mt-[5%] ml-0 lg:ml-[3%] w-full lg:w-[45%]">
                     <div class="contact-info w-full space-y-4 opacity-0 translate-y-2 px-6 sm:px-12 md:px-16 lg:px-20 py-8">
 
                         <!-- Label -->
