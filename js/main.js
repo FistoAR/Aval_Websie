@@ -1,11 +1,16 @@
 // Main Site Coordination Script
-document.addEventListener("DOMContentLoaded", () => {
-    // Reset scroll to top on refresh/load
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
 
+// Force scroll to top on page refresh/unload
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    window.scrollTo(0, 0);
     // Prevent scrolling while preloading is active
     const preloader = document.getElementById("preloader");
     if (preloader && !preloader.classList.contains("hidden")) {
@@ -109,5 +114,36 @@ document.addEventListener("DOMContentLoaded", () => {
             
             triggerHeroAnims();
         });
+    }
+
+    // Scroll Spy for Navigation Links
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    if (sections.length > 0 && navLinks.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute("id");
+                    navLinks.forEach((link) => {
+                        // Reset all links to default
+                        link.classList.remove("text-[#a3c945]");
+                        link.classList.add("text-white/75");
+                        
+                        // Highlight active link
+                        if (link.getAttribute("href") === `#${currentId}`) {
+                            link.classList.add("text-[#a3c945]");
+                            link.classList.remove("text-white/75", "hover:text-white");
+                        } else {
+                            link.classList.add("hover:text-white");
+                        }
+                    });
+                }
+            });
+        }, {
+            rootMargin: "-40% 0px -60% 0px" // Trigger when section passes the upper middle of the screen
+        });
+
+        sections.forEach((section) => observer.observe(section));
     }
 });

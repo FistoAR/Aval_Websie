@@ -2,6 +2,12 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
+    <script>
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AVAL | Pure Taste. Perfect Every Grain.</title>
@@ -12,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Metal&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&family=Playpen+Sans:wght@400;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
@@ -53,6 +59,8 @@
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        metal: ['Metal', 'Playfair Display', 'serif'],
+                        playpen: ['Playpen Sans', 'sans-serif'],
                     },
                     letterSpacing: {
                         widest: '0.25em',
@@ -102,44 +110,48 @@
 
     <!-- Navigation Header — Centered Glassmorphism Pill -->
     <header class="fixed top-0 left-0 w-full z-45 flex items-center justify-between md:justify-center px-6 md:px-4 pt-5 pointer-events-none">
-        <div id="nav-pill" class="pointer-events-auto nav-pill-anim flex items-center gap-6 md:gap-8 px-5 md:px-7 py-3
-                    rounded-full border border-white/10
-                    bg-white/5 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.28)]
+        <div id="nav-pill" class="pointer-events-auto nav-pill-anim flex items-center gap-4 md:gap-6 px-4 md:px-5 py-2.5
+                    rounded-full border border-[#a3c945]/40
+                    bg-[#0a110d]/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)]
                     opacity-0 -translate-y-5 ml-auto md:ml-auto md:mr-auto">
 
+            <!-- Left Flower Canvas -->
+            <canvas id="nav-flower-left" class="w-6 h-6 hidden md:block"></canvas>
+
             <!-- Nav Links -->
-            <nav class="hidden md:flex items-center gap-7 text-[14px] tracking-[0.22em] uppercase font-semibold">
-                <a href="#"
-                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+            <nav class="hidden md:flex items-center gap-7 text-[14px] tracking-[0.22em] uppercase font-semibold px-2">
+                <a href="#home"
+                    class="relative nav-link text-[#a3c945] transition-colors duration-300 cursor-hover group">
                     Home
-                    <span
-                        class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
                 </a>
                 <a href="#types-showcase"
-                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    class="relative nav-link text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
                     Types
                     <span
                         class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
                 </a>
                 <a href="#scroll-sequence"
-                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    class="relative nav-link text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
                     Process
                     <span
                         class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
                 </a>
                 <a href="#recipes"
-                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    class="relative nav-link text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
                     Recipes
                     <span
                         class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
                 </a>
                 <a href="#contact"
-                    class="relative text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
+                    class="relative nav-link text-white/75 hover:text-white transition-colors duration-300 cursor-hover group">
                     Contact
                     <span
                         class="absolute -bottom-0.5 left-0 w-0 h-px bg-sand-400 group-hover:w-full transition-all duration-300"></span>
                 </a>
             </nav>
+
+            <!-- Right Flower Canvas -->
+            <canvas id="nav-flower-right" class="w-6 h-6 hidden md:block"></canvas>
 
             <!-- Mobile hamburger -->
             <button class="md:hidden text-white/80 hover:text-white transition-colors text-base" id="mobile-menu-btn"
@@ -171,7 +183,7 @@
         <main id="smooth-content">
 
             <!-- 2. Hero Section (Split Layout with Curved Divider) -->
-            <section class="relative w-full h-screen overflow-hidden bg-charcoal z-10 animate-fade-in">
+            <section id="home" class="relative w-full h-screen overflow-hidden bg-charcoal z-10 animate-fade-in">
                 <!-- SVG Clip Path Definition for Left Content Area -->
                 <svg class="w-0 h-0 absolute">
                     <defs>
@@ -212,7 +224,7 @@
 
                 <!-- Left Content Area (Full Screen, clipped to curve) -->
                 <div
-                    class="absolute inset-0 w-full h-full z-20 flex flex-col justify-between px-6 sm:px-12 md:pl-20 md:pr-8 pt-32 pb-12 md:py-24 hero-content-clip">
+                    class="absolute inset-0 w-full h-full z-20 flex flex-col justify-between px-6 sm:px-12 md:pl-20 md:pr-8 pt-20 pb-6 md:pt-12 md:pb-10 hero-content-clip">
                     <!-- Ambient light sphere for text contrast -->
                     <div
                         class="absolute w-[60vw] h-[60vw] rounded-full bg-sage-500/5 blur-[100px] top-[-10%] left-[-10%] pointer-events-none">
@@ -227,33 +239,34 @@
 
                     <!-- Top Badge & Tagline Grouped & Centered -->
                     <div
-                        class="-mt-20 md:-mt-5 select-none ml-[6%] z-10 flex flex-col items-center self-start hero-badge-tag opacity-0">
+                        class="mt-5 select-none ml-[6%] z-10 flex flex-col self-start hero-badge-tag opacity-0">
                         <img src="assets/Icons/TopBadge.webp" alt="Top Badge"
-                            class="w-auto h-32 md:h-56 object-contain" />
-                        <span
-                            class="-mt-6 md:-mt-14 text-sm md:text-[18px] tracking-[0.25em] text-sand-400 font-bold uppercase block text-center">
-                            NATURAL &bull; PURE &bull; PREMIUM
-                        </span>
+                            class="w-[15vw] h-auto  object-contain" />
                     </div>
 
                     <!-- Main Body Section -->
-                    <div class="my-6 z-10 max-w-lg">
+                    <div class="-mt-[20vh] my-2 md:my-4 z-10 max-w-lg">
+                        <span
+                            class="ml-[3vw] mb-6 text-md md:text-[14px] tracking-[0.25em] text-cream font-bold uppercase block text-left opacity-0 hero-title-line ">
+                            PURE &bull; WHOLESOME &bull; AUTHENTIC
+                        </span>
+                        
                         <!-- Main Title (Unified Premium Serif Theme with spacious block gaps) -->
                         <h1
-                            class="font-serif text-3xl md:text-4xl lg:text-[2.6rem] text-cream tracking-wide select-none leading-none font-light">
-                            <span class="block mb-4 hero-title-line opacity-0">Selected paddy,</span>
-                            <span class="block mb-4 italic text-sand-300 hero-title-line opacity-0">processed with
-                                precision,</span>
-                            <span class="block font-normal text-cream hero-title-line opacity-0">served with
-                                tradition.</span>
+                            class="font-serif text-4xl md:text-5xl lg:text-[4.5rem] text-cream tracking-wide select-none leading-[1.1] font-light mt-2">
+                            <span class="block mb-2 hero-title-line opacity-0 text-[0.5em] md:text-[0.45em] font-serif">Goodness in every</span>
+                            <span class="block mb-3 hero-title-line opacity-0 font-bold text-cream uppercase font-serif tracking-widest">FLAKE,</span>
+                            <span class="block mb-2 hero-title-line opacity-0 font-metal text-[#DDA939] text-[1.2em] tracking-normal capitalize italic" style="line-height: 1;">Tradition</span>
+                            <span class="block hero-title-line opacity-0 text-[0.5em] md:text-[0.6em] font-serif">in every bite.</span>
                         </h1>
+                        
+                        <p class="mt-6 text-cream text-sm md:text-base opacity-0 hero-title-line max-w-sm ml-1 font-sans">
+                            Carefully selected grains, gently flattened<br>to preserve natural nutrition and taste.
+                        </p>
 
                         <!-- Stats Block (Three Columns, stacked vertically below icons with cropped whitespace) -->
-                        <div class="relative py-6 my-8 z-10 max-w-md">
-                            <!-- Top animated border line -->
-                            <div
-                                class="hero-border-top absolute top-0 left-0 w-full h-px bg-sand-400/25 origin-left scale-x-0">
-                            </div>
+                        <div class="relative py-4 my-5 z-10 max-w-md">
+                          
 
                             <div class="grid grid-cols-3 gap-4">
                                 <!-- Col 1: 25+ Years of Trust -->
@@ -301,24 +314,12 @@
                                 </div>
                             </div>
 
-                            <!-- Bottom animated border line -->
-                            <div
-                                class="hero-border-bottom absolute bottom-0 left-0 w-full h-px bg-sand-400/25 origin-left scale-x-0">
-                            </div>
+                           
                         </div>
 
-                        <!-- Button: EXPLORE COLLECTION with custom border running & blowing arrow hover effects -->
-                        <div class="flex items-center gap-6  hero-reveal-btn mt-6 hero-cta-btn opacity-0">
-                            <a href="#collection"
-                                class="explore-btn-anim magnetic relative inline-flex items-center justify-between w-full max-w-[280px] bg-transparent text-sand-400 hover:text-cream px-6 py-3.5 rounded-md text-[11px] tracking-widest uppercase transition-colors duration-300 cursor-hover font-bold overflow-hidden border border-sand-400/30">
-                                <span class="relative z-10">EXPLORE COLLECTION</span>
-                                <i
-                                    class="fa-solid fa-arrow-right-long text-[11px] relative z-10 transition-transform duration-300 arrow-blow"></i>
-                            </a>
-                        </div>
                     </div>
 
-                    <div class="w-full h-8"></div>
+                    <div class="w-full h-4"></div>
                 </div>
 
                 <!-- Top-Right Dark Green tab overlay spanning over menu button -->
@@ -373,6 +374,82 @@
                             }, 5000);
                         });
                     })();
+            </script>
+
+            <!-- Benefits Section -->
+            <section id="benefits-section" class="relative bg-[#FAF9F6] py-12 md:py-16 z-10">
+                <div class="max-w-7xl mx-auto px-6 text-center">
+                    <h2 class="font-playpen text-4xl md:text-5xl font-bold mb-10 text-[#415B1A] tracking-wide benefits-fade">Benefits</h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-4 benefits-stagger">
+                        <!-- Item 1 -->
+                        <div class="flex flex-col items-center benefit-item">
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#CDDBCF] flex items-center justify-center mb-6 shadow-sm">
+                                <img src="assets/benifitsIcons/readyToUse.webp" alt="Ready To Use" class="w-12 h-12 md:w-16 md:h-16 object-contain" />
+                            </div>
+                            <h3 class="font-playpen font-semibold text-[#415B1A] text-sm md:text-base tracking-wider uppercase max-w-[150px]">READY TO<br>EAT & USE</h3>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="flex flex-col items-center benefit-item">
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#CDDBCF] flex items-center justify-center mb-6 shadow-sm">
+                                <img src="assets/benifitsIcons/fullRoasted.webp" alt="Full Roasted" class="w-12 h-12 md:w-16 md:h-16 object-contain" />
+                            </div>
+                            <h3 class="font-playpen font-semibold text-[#415B1A] text-sm md:text-base tracking-wider uppercase max-w-[150px]">FULL ROASTED<br>& OIL FREE</h3>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="flex flex-col items-center benefit-item">
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#CDDBCF] flex items-center justify-center mb-6 shadow-sm">
+                                <img src="assets/benifitsIcons/noAddedSugar.webp" alt="No Added Sugar" class="w-12 h-12 md:w-16 md:h-16 object-contain" />
+                            </div>
+                            <h3 class="font-playpen font-semibold text-[#415B1A] text-sm md:text-base tracking-wider uppercase max-w-[150px]">NO ADDED SUGAR,<br>FLAVORS</h3>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="flex flex-col items-center benefit-item">
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#CDDBCF] flex items-center justify-center mb-6 shadow-sm">
+                                <img src="assets/benifitsIcons/PerfectWithMilk.webp" alt="Perfect With Milk" class="w-12 h-12 md:w-16 md:h-16 object-contain" />
+                            </div>
+                            <h3 class="font-playpen font-semibold text-[#415B1A] text-sm md:text-base tracking-wider uppercase max-w-[150px]">PERFECT WITH<br>MILK & FRUITS</h3>
+                        </div>
+
+                        <!-- Item 5 -->
+                        <div class="flex flex-col items-center benefit-item col-span-2 md:col-span-1">
+                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#CDDBCF] flex items-center justify-center mb-6 shadow-sm">
+                                <img src="assets/benifitsIcons/EndlessPossibilities.webp" alt="Endless Possibilities" class="w-12 h-12 md:w-16 md:h-16 object-contain" />
+                            </div>
+                            <h3 class="font-playpen font-semibold text-[#415B1A] text-sm md:text-base tracking-wider uppercase max-w-[150px]">ENDLESS<br>POSSIBILITIES</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <script>
+                // GSAP Animations for Benefits
+                document.addEventListener('DOMContentLoaded', () => {
+                    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                        gsap.registerPlugin(ScrollTrigger);
+                        
+                        const tl = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: "#benefits-section",
+                                start: "top 90%",
+                                toggleActions: "play none none none",
+                            }
+                        });
+
+                        tl.fromTo(".benefits-fade", 
+                            { y: 30, opacity: 0 },
+                            { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
+                        )
+                        .fromTo(".benefit-item", 
+                            { y: 40, opacity: 0 },
+                            { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: "power2.out" },
+                            "-=0.4"
+                        );
+                    }
+                });
             </script>
 
             <section id="types-showcase" class="relative bg-charcoal text-cream overflow-hidden z-10">
@@ -468,75 +545,285 @@
                 </div>
             </section>
 
+            <!-- Gallery Section -->
+            <section id="gallery" class="relative w-full bg-[#FAF9F6] py-20 md:py-32 z-10 overflow-hidden text-center">
+                <div class="max-w-7xl mx-auto px-4 md:px-6">
+                    <!-- Title -->
+                    <div class="mb-16">
+                        <h2 class="font-playpen text-4xl md:text-5xl font-bold text-[#415B1A] tracking-wide">Gallery</h2>
+                    </div>
+
+                    <!-- Top Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto mb-4 md:mb-6">
+                        
+                        <!-- Column 1 -->
+                        <div class="flex flex-col gap-4 md:gap-6">
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-[2/1] md:h-[120px]">
+                                <img src="assets/gallery/1.1.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[280px]">
+                                <img src="assets/gallery/1.2.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="flex flex-col gap-4 md:gap-6">
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[280px]">
+                                <img src="assets/gallery/2.1.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-[2/1] md:h-[120px]">
+                                <img src="assets/gallery/2.2.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                        </div>
+
+                        <!-- Column 3 -->
+                        <div class="flex flex-col gap-4 md:gap-6">
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[188px]">
+                                <img src="assets/gallery/1.3.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[212px]">
+                                <img src="assets/gallery/2.3.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Middle Span Image -->
+                    <div class="gallery-item group relative overflow-hidden rounded-xl w-full max-w-5xl mx-auto mb-4 md:mb-6 aspect-[4/1] md:h-[240px]">
+                        <img src="assets/gallery/3.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Span Image" loading="lazy" />
+                    </div>
+
+                    <!-- Bottom Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+                        
+                        <!-- Column 1 -->
+                        <div class="flex flex-col gap-4 md:gap-6">
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[280px]">
+                                <img src="assets/gallery/4.1.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[220px]">
+                                <img src="assets/gallery/5.1.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-[2/1] md:h-[120px]">
+                                <img src="assets/gallery/6.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="flex flex-col gap-4 md:gap-6">
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[220px]">
+                                <img src="assets/gallery/4.2.1.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-[2/1] md:h-[100px]">
+                                <img src="assets/gallery/4.2.2.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[256px]">
+                                <img src="assets/gallery/5.2.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                        </div>
+
+                        <!-- Column 3 -->
+                        <div class="flex flex-col gap-4 md:gap-6">
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-square md:h-[280px]">
+                                <img src="assets/gallery/4.3.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                            <div class="gallery-item group relative overflow-hidden rounded-xl aspect-[3/4] md:h-[344px]">
+                                <img src="assets/gallery/5.3.webp" class="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-700 ease-in-out" alt="Gallery Image" loading="lazy" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
             <!-- 2.7. Recipes Section (3D Arch Carousel Pinned) -->
-            <section id="recipes"
-                class="relative w-full h-screen bg-[#0b140e] text-cream overflow-hidden z-10 flex items-center justify-center">
-                <!-- Paper.js Floating Leaves Canvas -->
-                <canvas id="recipes-leaves-canvas"
-                    class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+            <!-- Recipes Section Redesign -->
+            <section id="recipes" class="relative w-full bg-[#EAE8E3] py-20 md:py-32 z-10 overflow-hidden text-center">
+                <div class="max-w-7xl mx-auto px-4 md:px-6">
+                    <!-- Title & Subtitle -->
+                    <div class="mb-16">
+                        <h2 class="font-playpen text-4xl md:text-5xl font-bold mb-4 text-[#415B1A] tracking-wide">Delicious Way to Enjoy Aval</h2>
+                        <p class="text-charcoal/80 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+                            From quick breakfast to traditional favourites,<br>
+                            discover simple and tasty recipes made with Aval.
+                        </p>
+                    </div>
 
-                <!-- Section Title (Top Left) -->
-                <div class="absolute top-12 left-6 md:left-12 z-30">
-                    <span class="text-xs font-semibold tracking-widest text-sand-400 uppercase block mb-1">AVAL
-                        Kitchen</span>
-                    <h2 class="font-serif text-3xl md:text-5xl text-cream leading-tight tracking-wide italic">Recipes
-                        with AVAL</h2>
-                </div>
+                    <!-- Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto items-start">
+                        
+                        <!-- Card 1: Aval Payasam -->
+                        <div class="group relative bg-[#FAF9F6] rounded-[32px] overflow-hidden shadow-lg border border-sand-300/30 flex flex-col h-auto cursor-hover">
+                            <!-- Image -->
+                            <div class="relative w-full h-[280px] overflow-hidden rounded-t-[32px]">
+                                <!-- Fallback image used since payasam.webp is missing -->
+                                <img src="assets/Reciepies/lemon.webp" alt="Aval Payasam" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                            </div>
+                            <!-- Logo Badge (overlaps image) -->
+                            <div class="absolute top-[256px] left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#FAF9F6] border-4 border-[#FAF9F6] shadow-sm flex items-center justify-center z-20">
+                                <img src="assets/Reciepies/payasamlogo.webp" alt="Payasam Icon" class="w-full h-full object-contain" />
+                            </div>
+                            
+                            <!-- Content Box -->
+                            <div class="pt-8 pb-6 px-6 bg-[#FAF9F6] relative z-10">
+                                <h3 class="font-playpen text-xl font-bold text-[#415B1A] mb-2">Aval Payasam</h3>
+                                <!-- Decorative Line -->
+                                <div class="flex items-center justify-center gap-2 mb-4 opacity-70">
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                    <div class="w-1.5 h-1.5 rounded-[1px] rotate-45 bg-[#415B1A]"></div>
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                </div>
+                                
+                                <!-- Expanding Ingredients (hidden by default) -->
+                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                                    <div class="overflow-hidden">
+                                        <div class="pt-2 text-left">
+                                            <h4 class="text-[#415B1A] font-semibold text-sm mb-3">Ingredients</h4>
+                                            <div class="grid grid-cols-2 gap-x-2 gap-y-2 text-xs text-charcoal/80">
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Aval (Poha)</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Cashew Nuts</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Milk</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Raisins</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Jaggery</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Ghee</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Cardamom</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Navigation Buttons (Left and Right Sides Center) -->
-                <button id="recipe-prev"
-                    class="absolute left-6 md:left-12 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full border border-white/20 hover:border-sand-400 hover:bg-cream hover:text-charcoal flex items-center justify-center transition-all duration-300 text-white select-none pointer-events-auto cursor-hover z-30"
-                    aria-label="Previous recipe">
-                    <i class="fa-solid fa-chevron-left text-sm"></i>
-                </button>
-                <button id="recipe-next"
-                    class="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full border border-white/20 hover:border-sand-400 hover:bg-cream hover:text-charcoal flex items-center justify-center transition-all duration-300 text-white select-none pointer-events-auto cursor-hover z-30"
-                    aria-label="Next recipe">
-                    <i class="fa-solid fa-chevron-right text-sm"></i>
-                </button>
+                        <!-- Card 2: Lemon Aval -->
+                        <div class="group relative bg-[#FAF9F6] rounded-[32px] overflow-hidden shadow-lg border border-sand-300/30 flex flex-col h-auto cursor-hover">
+                            <!-- Image -->
+                            <div class="relative w-full h-[280px] overflow-hidden rounded-t-[32px]">
+                                <img src="assets/Reciepies/lemon.webp" alt="Lemon Aval" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                            </div>
+                            <!-- Logo Badge (overlaps image) -->
+                            <div class="absolute top-[256px] left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#FAF9F6] border-4 border-[#FAF9F6] shadow-sm flex items-center justify-center z-20">
+                                <img src="assets/Reciepies/lemonLogo.webp" alt="Lemon Icon" class="w-full h-full object-contain" />
+                            </div>
+                            
+                            <!-- Content Box -->
+                            <div class="pt-8 pb-6 px-6 bg-[#FAF9F6] relative z-10">
+                                <h3 class="font-playpen text-xl font-bold text-[#415B1A] mb-2">Lemon Aval</h3>
+                                <!-- Decorative Line -->
+                                <div class="flex items-center justify-center gap-2 mb-4 opacity-70">
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                    <div class="w-1.5 h-1.5 rounded-[1px] rotate-45 bg-[#415B1A]"></div>
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                </div>
+                                
+                                <!-- Expanding Ingredients (hidden by default) -->
+                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                                    <div class="overflow-hidden">
+                                        <div class="pt-2 text-left">
+                                            <h4 class="text-[#415B1A] font-semibold text-sm mb-3">Ingredients</h4>
+                                            <div class="grid grid-cols-2 gap-x-2 gap-y-2 text-xs text-charcoal/80">
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Aval (Poha)</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Peanuts</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Lemon Juice</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Turmeric</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Green Chilli</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Salt</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Mustard Seeds</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Oil</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Curry Leaves</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Hing</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Arch Carousel Wrapper -->
-                <div class="recipes-arch-container relative w-full h-full flex items-center justify-center">
-                    <!-- Carousel Track (holds absolute positioned cards) -->
-                    <div
-                        class="recipes-arch-track relative w-full h-full flex items-center justify-center pointer-events-none z-20">
-                        <!-- Card 1 (Lemon) -->
-                        <div
-                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
-                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_58 PM.webp" alt="Lemon Aval"
-                                class="w-full h-full object-cover" draggable="false" />
+                        <!-- Card 3: Aval Cutlet -->
+                        <div class="group relative bg-[#FAF9F6] rounded-[32px] overflow-hidden shadow-lg border border-sand-300/30 flex flex-col h-auto cursor-hover">
+                            <!-- Image -->
+                            <div class="relative w-full h-[280px] overflow-hidden rounded-t-[32px]">
+                                <img src="assets/Reciepies/cutlet.webp" alt="Aval Cutlet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                            </div>
+                            <!-- Logo Badge (overlaps image) -->
+                            <div class="absolute top-[256px] left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#FAF9F6] border-4 border-[#FAF9F6] shadow-sm flex items-center justify-center z-20">
+                                <img src="assets/Reciepies/cutletlogo.webp" alt="Cutlet Icon" class="w-full h-full object-contain" />
+                            </div>
+                            
+                            <!-- Content Box -->
+                            <div class="pt-8 pb-6 px-6 bg-[#FAF9F6] relative z-10">
+                                <h3 class="font-playpen text-xl font-bold text-[#415B1A] mb-2">Aval Cutlet</h3>
+                                <!-- Decorative Line -->
+                                <div class="flex items-center justify-center gap-2 mb-4 opacity-70">
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                    <div class="w-1.5 h-1.5 rounded-[1px] rotate-45 bg-[#415B1A]"></div>
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                </div>
+                                
+                                <!-- Expanding Ingredients (hidden by default) -->
+                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                                    <div class="overflow-hidden">
+                                        <div class="pt-2 text-left">
+                                            <h4 class="text-[#415B1A] font-semibold text-sm mb-3">Ingredients</h4>
+                                            <div class="grid grid-cols-2 gap-x-2 gap-y-2 text-xs text-charcoal/80">
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Aval (Poha)</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Ginger</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Potato</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Breadcrumbs</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Onion</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Salt</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Green Chilli</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Oil</div>
+                                                <div class="flex items-center gap-1.5 col-span-2"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Coriander Leaves</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Card 2 (Upma) -->
-                        <div
-                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
-                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_51 PM.webp"
-                                alt="Vegetable Aval Upma" class="w-full h-full object-cover" draggable="false" />
+
+                        <!-- Card 4: Aval Biryani -->
+                        <div class="group relative bg-[#FAF9F6] rounded-[32px] overflow-hidden shadow-lg border border-sand-300/30 flex flex-col h-auto cursor-hover">
+                            <!-- Image -->
+                            <div class="relative w-full h-[280px] overflow-hidden rounded-t-[32px]">
+                                <img src="assets/Reciepies/biriyani.webp" alt="Aval Biryani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                            </div>
+                            <!-- Logo Badge (overlaps image) -->
+                            <div class="absolute top-[256px] left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#FAF9F6] border-4 border-[#FAF9F6] shadow-sm flex items-center justify-center z-20">
+                                <img src="assets/Reciepies/biriyanilogo.webp" alt="Biryani Icon" class="w-full h-full object-contain" />
+                            </div>
+                            
+                            <!-- Content Box -->
+                            <div class="pt-8 pb-6 px-6 bg-[#FAF9F6] relative z-10">
+                                <h3 class="font-playpen text-xl font-bold text-[#415B1A] mb-2">Aval Biryani</h3>
+                                <!-- Decorative Line -->
+                                <div class="flex items-center justify-center gap-2 mb-4 opacity-70">
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                    <div class="w-1.5 h-1.5 rounded-[1px] rotate-45 bg-[#415B1A]"></div>
+                                    <div class="w-4 h-px bg-[#415B1A]"></div>
+                                </div>
+                                
+                                <!-- Expanding Ingredients (hidden by default) -->
+                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+                                    <div class="overflow-hidden">
+                                        <div class="pt-2 text-left">
+                                            <h4 class="text-[#415B1A] font-semibold text-sm mb-3">Ingredients</h4>
+                                            <div class="grid grid-cols-2 gap-x-2 gap-y-2 text-xs text-charcoal/80">
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Aval (Poha)</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Ginger Garlic</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Onion</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Garam Masala</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Green Peas</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Salt</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Carrot</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Oil</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Beans</div>
+                                                <div class="flex items-center gap-1.5"><div class="w-1 h-1 rounded-full bg-[#415B1A]"></div> Curry Leaves</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Card 3 (Curd) -->
-                        <div
-                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
-                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_46 PM.webp" alt="Curd Aval"
-                                class="w-full h-full object-cover" draggable="false" />
-                        </div>
-                        <!-- Card 4 (Puli) -->
-                        <div
-                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
-                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_14 PM.webp" alt="Puliyaval Aval"
-                                class="w-full h-full object-cover" draggable="false" />
-                        </div>
-                        <!-- Card 5 (Payasam) -->
-                        <div
-                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
-                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_09 PM.webp" alt="Aval Payasam"
-                                class="w-full h-full object-cover" draggable="false" />
-                        </div>
-                        <!-- Card 6 (Sweet) -->
-                        <div
-                            class="recipe-arch-card pointer-events-auto flex-none w-[280px] sm:w-[360px] md:w-[440px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-cream border border-sand-300/30 absolute">
-                            <img src="assets/Reciepies/ChatGPT Image Jul 2, 2026, 03_33_03 PM.webp" alt="Sweet Aval"
-                                class="w-full h-full object-cover" draggable="false" />
-                        </div>
+
                     </div>
                 </div>
             </section>

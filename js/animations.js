@@ -2,6 +2,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     // Register GSAP Plugins
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    
+    // Wipe GSAP scroll memory caching on load
+    if (typeof ScrollTrigger.clearScrollMemory === 'function') {
+        ScrollTrigger.clearScrollMemory();
+    }
+    
+    // Force native window to top
+    window.scrollTo(0, 0);
 
     // 1. Magnetic Custom Cursor
     const cursor = document.getElementById("custom-cursor");
@@ -127,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 4. Reveal Animations on scroll for general sections
     // Reveal text elements
-    gsap.utils.toArray("h2, .section-subtitle").forEach(heading => {
+    gsap.utils.toArray("h2:not(.benefits-fade, #recipes h2), .section-subtitle:not(#recipes p)").forEach(heading => {
         gsap.from(heading, {
             scrollTrigger: {
                 trigger: heading,
@@ -464,10 +472,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sequenceContainer && canvas) {
         const ctx = canvas.getContext("2d");
 
-        // Define canvas dimensions dynamically
+        // Define canvas dimensions dynamically with High DPI support
         const setCanvasSize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            canvas.style.width = `${window.innerWidth}px`;
+            canvas.style.height = `${window.innerHeight}px`;
+            ctx.scale(dpr, dpr);
             render();
         };
 
@@ -496,23 +508,27 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const render = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const img = images[Math.floor(playhead.frame)];
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            ctx.clearRect(0, 0, width, height);
+            
+            // Round playhead for smooth frame picking without GSAP snapping
+            const img = images[Math.round(playhead.frame)];
             if (img && img.complete) {
                 // Object-cover aspect ratio fit
-                const canvasAspect = canvas.width / canvas.height;
+                const canvasAspect = width / height;
                 const imgAspect = img.width / img.height;
                 let drawWidth, drawHeight, drawX, drawY;
 
                 if (canvasAspect > imgAspect) {
-                    drawWidth = canvas.width;
-                    drawHeight = canvas.width / imgAspect;
+                    drawWidth = width;
+                    drawHeight = width / imgAspect;
                     drawX = 0;
-                    drawY = (canvas.height - drawHeight) / 2;
+                    drawY = (height - drawHeight) / 2;
                 } else {
-                    drawWidth = canvas.height * imgAspect;
-                    drawHeight = canvas.height;
-                    drawX = (canvas.width - drawWidth) / 2;
+                    drawWidth = height * imgAspect;
+                    drawHeight = height;
+                    drawX = (width - drawWidth) / 2;
                     drawY = 0;
                 }
 
@@ -523,13 +539,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const initScrollTrigger = () => {
             gsap.to(playhead, {
                 frame: frameCount - 1,
-                snap: "frame",
                 ease: "none",
                 scrollTrigger: {
                     trigger: sequenceContainer,
                     start: "top top",
                     end: "+=3500",
-                    scrub: 1.2,
+                    scrub: 0.5, // Reduced scrub delay for tighter, smoother tracking
                     pin: true,
                     onUpdate: render
                 }
@@ -540,227 +555,91 @@ document.addEventListener("DOMContentLoaded", () => {
         loadImages();
     }
 
-    // 10. 3D Arch Carousel Pinned on Scroll (Stag 2 Scrolls with Scroll-driven animation)
-    const archCards = document.querySelectorAll(".recipe-arch-card");
-    const recipesSection = document.getElementById("recipes");
-    
-    if (archCards.length > 0 && recipesSection) {
-        let activeIndex = 0;
-        const total = archCards.length;
-        let autoPlayTimer = null;
+    // 9.5 Gallery Section Reveal & Zoom Hover
+    const gallerySection = document.getElementById("gallery");
+    if (gallerySection) {
+        const galleryItems = document.querySelectorAll("#gallery .gallery-item");
         
-        const updateArch = () => {
-            const width = window.innerWidth;
-            // Smoothly scale spacing based on screen width to fit all desktop resolutions perfectly
-            const xOffsetMultiplier = Math.min(Math.max(width * 0.22, 140), 420);
-            const yOffsetMultiplier = Math.min(Math.max(width * 0.02, 15), 35);
-            
-            archCards.forEach((card, i) => {
-                let offset = i - activeIndex;
-                
-                // Wrap around loop path
-                if (offset < -total / 2) offset += total;
-                if (offset > total / 2) offset -= total;
-                
-                const absOffset = Math.abs(offset);
-                
-                // Arch transforms (bending down at sides)
-                const tx = offset * xOffsetMultiplier;
-                const ty = absOffset * yOffsetMultiplier; // Bend down on sides to form arch
-                const tz = -absOffset * 180; // Push back in Z space
-                const ry = -offset * 25; // Rotate facing inward
-                const rz = offset * 4;   // Slight roll/fan rotation
-                const scale = 0.90 - absOffset * 0.12; // Center is 0.90 (little small), side 1 is 0.78, side 2 is 0.66
-                
-                // Show 5 cards: center (1.0), side 1 (0.85), side 2 (0.55 - little bit only hide), rest (0.0)
-                const opacity = absOffset === 0 ? 1.0 : (absOffset === 1 ? 0.85 : (absOffset === 2 ? 0.55 : 0.0));
-                const pointerEvents = absOffset <= 2 ? "auto" : "none";
-                const zIndex = 100 - absOffset;
-                
-                gsap.to(card, {
-                    x: tx,
-                    y: ty,
-                    z: tz,
-                    rotationY: ry,
-                    rotationZ: rz,
-                    scale: scale,
-                    opacity: opacity,
-                    zIndex: zIndex,
-                    pointerEvents: pointerEvents,
-                    duration: 1.2,
-                    ease: "power2.inOut",
-                    transformPerspective: 1200,
-                    transformOrigin: "bottom center"
-                });
+        galleryItems.forEach((item) => {
+            // 1. Scroll Reveal Animation
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 90%",
+                    end: "bottom 10%",
+                    toggleActions: "play reverse play reverse"
+                },
+                y: 50,
+                opacity: 0,
+                scale: 0.95,
+                duration: 0.6,
+                ease: "power2.out"
             });
-        };
-        
-        const prevSlide = () => {
-            activeIndex = (activeIndex - 1 + total) % total;
-            updateArch();
-        };
-        
-        const nextSlide = () => {
-            activeIndex = (activeIndex + 1) % total;
-            updateArch();
-        };
-        
-        const startAutoPlay = () => {
-            clearInterval(autoPlayTimer);
-            autoPlayTimer = setInterval(nextSlide, 5000); // Auto change every 5 seconds
-        };
-        
-        let lastChangeTime = 0;
 
-        // Pinned ScrollTrigger (Stag 2 scrolls with scroll progress animation)
-        gsap.to({}, {
-            scrollTrigger: {
-                trigger: recipesSection,
-                start: "top top",
-                end: "+=2000",
-                pin: true,
-                scrub: 0.5, // Scroll-driven transition
-                onUpdate: (self) => {
-                    const now = Date.now();
-                    const progressIndex = Math.min(
-                        Math.floor(self.progress * total),
-                        total - 1
-                    );
-                    if (progressIndex !== activeIndex) {
-                        // Throttle rapid scroll triggers to once every 600ms
-                        if (now - lastChangeTime < 600) return;
-                        
-                        activeIndex = progressIndex;
-                        updateArch();
-                        lastChangeTime = now;
-                        startAutoPlay(); // Reset autoplay timer on scroll transition
-                    }
-                }
+            // 2. Magnifying Zoom Hover Effect (Flipkart/Amazon style)
+            const img = item.querySelector("img");
+            if (img) {
+                // Override default tailwind transition to avoid lagging transform-origin
+                img.style.transition = "transform 0.3s ease-out, filter 0.3s ease-out";
+                
+                item.addEventListener("mousemove", (e) => {
+                    const rect = item.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+
+                    img.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                    img.style.transform = "scale(1.8)";
+                });
+
+                item.addEventListener("mouseleave", () => {
+                    img.style.transformOrigin = "center center";
+                    img.style.transform = "scale(1)";
+                });
             }
         });
-        
-        // Force sort ScrollTrigger to ensure pinning spacer matches actual order of elements
-        ScrollTrigger.sort();
-        
-        // Hook up left/right navigation buttons
-        const btnPrev = document.getElementById("recipe-prev");
-        const btnNext = document.getElementById("recipe-next");
-        if (btnPrev) {
-            btnPrev.addEventListener("click", () => {
-                prevSlide();
-                startAutoPlay();
-            });
-        }
-        if (btnNext) {
-            btnNext.addEventListener("click", () => {
-                nextSlide();
-                startAutoPlay();
-            });
-        }
-        
-        // Allow clicking on side cards to select/jump directly
-        archCards.forEach((card, i) => {
-            card.addEventListener("click", () => {
-                activeIndex = i;
-                updateArch();
-                startAutoPlay();
-            });
-        });
-        
-        // Resize listener
-        window.addEventListener("resize", updateArch);
-        
-        // Initial setup
-        updateArch();
-        startAutoPlay();
     }
 
-    // 11. Paper.js Recipes Floating Leaves Canvas Animation
-    const recipesCanvas = document.getElementById("recipes-leaves-canvas");
-    if (recipesCanvas) {
-        const recipesScope = new paper.PaperScope();
-        recipesScope.setup(recipesCanvas);
+    // 10. Recipes Grid Scroll Reveal & Floating Animation
+    const recipesSection = document.getElementById("recipes");
+    if (recipesSection) {
+        const recipeCards = document.querySelectorAll("#recipes .group");
+        const revealElements = document.querySelectorAll("#recipes .mb-16, #recipes .group");
+        
+        // 1. Scroll Reveal (fades in and out when entering/leaving view)
+        gsap.from(revealElements, {
+            scrollTrigger: {
+                trigger: recipesSection,
+                start: "top 85%",
+                end: "bottom 15%",
+                toggleActions: "play reverse play reverse"
+            },
+            scale: 0.9,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: "power2.out"
+        });
 
-        const rView = recipesScope.view;
-        const rCount = 24;
-        const rLeaves = [];
-
-        const createRecipeLeafSymbol = () => {
-            const path = new recipesScope.Path();
-            path.strokeColor = new recipesScope.Color(1, 1, 1, 0.45);
-            path.strokeWidth = 1.0;
-            path.fillColor = 'transparent';
+        // 2. Zig-Zag Floating Animation
+        recipeCards.forEach((card, i) => {
+            // Odd cards float down, even cards float up
+            const yOffset = i % 2 === 0 ? 12 : -12; 
             
-            path.moveTo(0, 0);
-            path.cubicCurveTo(12, -8, 28, -4, 40, 0);
-            path.cubicCurveTo(28, 4, 12, 8, 0, 0);
-            path.closePath();
-            
-            const line = new recipesScope.Path();
-            line.strokeColor = new recipesScope.Color(1, 1, 1, 0.22);
-            line.strokeWidth = 0.6;
-            line.moveTo(0, 0);
-            line.lineTo(32, 0);
-            
-            const group = new recipesScope.Group([path, line]);
-            return new recipesScope.SymbolDefinition(group);
-        };
-
-        const rLeafSymbol = createRecipeLeafSymbol();
-
-        for (let i = 0; i < rCount; i++) {
-            const center = recipesScope.Point.random().multiply(rView.size);
-            const placed = rLeafSymbol.place(center);
-            
-            const scale = 0.4 + Math.random() * 0.8;
-            placed.scale(scale);
-            placed.rotate(Math.random() * 360);
-
-            rLeaves.push({
-                item: placed,
-                vector: new recipesScope.Point(
-                    -0.3 - Math.random() * 0.6,
-                    0.4 + Math.random() * 1.0
-                ),
-                speed: 0.7 + Math.random() * 1.3,
-                rotSpeed: (Math.random() - 0.5) * 0.6,
-                swayAngle: Math.random() * Math.PI * 2,
-                swaySpeed: 0.01 + Math.random() * 0.015
+            const floatAnim = gsap.to(card, {
+                y: yOffset,
+                duration: 2.5,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1,
             });
-        }
 
-        rView.onFrame = (event) => {
-            rLeaves.forEach(leaf => {
-                leaf.swayAngle += leaf.swaySpeed;
-                const sway = Math.sin(leaf.swayAngle) * 0.35;
-
-                leaf.item.position.x += (leaf.vector.x + sway) * leaf.speed;
-                leaf.item.position.y += leaf.vector.y * leaf.speed;
-                leaf.item.rotate(leaf.rotSpeed);
-
-                if (leaf.item.position.y > rView.size.height + 40) {
-                    leaf.item.position.y = -40;
-                    leaf.item.position.x = Math.random() * rView.size.width;
-                }
-                if (leaf.item.position.x < -40) {
-                    leaf.item.position.x = rView.size.width + 40;
-                }
-                if (leaf.item.position.x > rView.size.width + 40) {
-                    leaf.item.position.x = -40;
-                }
-            });
-        };
-
-        rView.onResize = () => {
-            rLeaves.forEach(leaf => {
-                if (leaf.item.position.x > rView.size.width) {
-                    leaf.item.position.x = Math.random() * rView.size.width;
-                }
-                if (leaf.item.position.y > rView.size.height) {
-                    leaf.item.position.y = Math.random() * rView.size.height;
-                }
-            });
-        };
+            // Pause float when hovered
+            card.addEventListener("mouseenter", () => floatAnim.pause());
+            card.addEventListener("mouseleave", () => floatAnim.play());
+        });
     }
 
     // 12. Contact Section — Bidirectional Scroll Entrance/Exit
@@ -858,4 +737,36 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power2.out"
         });
     }
+
+    // 13. Nav Pill Flower Icons (Paper.js)
+    function initNavFlower(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        
+        const scope = new paper.PaperScope();
+        scope.setup(canvas);
+        
+        // Draw the minimalist 3-leaf flower using SVG path data
+        const pathData = "M12 22 C12 22 7 14 12 4 C17 14 12 22 12 22 Z M12 20 C12 20 2 16 3 9 C7 7 12 15 12 15 Z M12 20 C12 20 22 16 21 9 C17 7 12 15 12 15 Z M12 12 L12 22 M7 15 L5 13 M17 15 L19 13";
+        const flower = new scope.CompoundPath(pathData);
+        
+        flower.strokeColor = '#a3c945'; // Light green to match active text
+        flower.strokeWidth = 1.2;
+        flower.fillColor = 'transparent';
+        flower.strokeCap = 'round';
+        flower.strokeJoin = 'round';
+        
+        // Center and scale to fit the 24x24 canvas
+        flower.scale(0.75);
+        flower.position = scope.view.center;
+        
+        // Add a gentle idle breathing animation
+        scope.view.onFrame = (event) => {
+            const scale = 1 + Math.sin(event.time * 2.5) * 0.005;
+            flower.scale(scale);
+        };
+    }
+    
+    initNavFlower("nav-flower-left");
+    initNavFlower("nav-flower-right");
 });
