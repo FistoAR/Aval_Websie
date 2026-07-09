@@ -224,7 +224,7 @@
 
                 <!-- Left Content Area (Full Screen, clipped to curve) -->
                 <div
-                    class="absolute inset-0 w-full h-full z-20 flex flex-col justify-between px-6 sm:px-12 md:pl-20 md:pr-8 pt-20 pb-6 md:pt-12 md:pb-10 hero-content-clip">
+                    class="absolute inset-0 w-full h-full z-20 flex flex-col justify-center px-6 sm:px-12 md:pl-20 md:pr-8 pt-24 pb-6 md:pt-20 md:pb-10 hero-content-clip">
                     <!-- Ambient light sphere for text contrast -->
                     <div
                         class="absolute w-[60vw] h-[60vw] rounded-full bg-sage-500/5 blur-[100px] top-[-10%] left-[-10%] pointer-events-none">
@@ -237,89 +237,85 @@
                             class="w-full h-full object-contain object-left-bottom waving-crop" />
                     </div>
 
-                    <!-- Top Badge & Tagline Grouped & Centered -->
-                    <div
-                        class="mt-5 select-none ml-[6%] z-10 flex flex-col self-start hero-badge-tag opacity-0">
-                        <img src="assets/Icons/TopBadge.webp" alt="Top Badge"
-                            class="w-[15vw] h-auto  object-contain" />
-                    </div>
-
                     <!-- Main Body Section -->
-                    <div class="-mt-[20vh] my-2 md:my-4 z-10 max-w-lg">
+                    <div class="z-10 w-[fit-content] mx-auto md:w-full md:mx-0 max-w-lg flex flex-col justify-center relative">
+                        
+                        <!-- Top Badge Centered Above Text -->
+                        <div class="mb-4 sm:mb-6 select-none z-10 flex self-center  hero-badge-tag opacity-0 md:-ml-2">
+                            <img src="assets/Icons/TopBadge.webp" alt="Top Badge"
+                                class="w-[160px] sm:w-[200px] md:w-[15vw] md:min-w-[140px] h-auto object-contain" />
+                        </div>
+
                         <span
-                            class="ml-[3vw] mb-6 text-md md:text-[14px] tracking-[0.25em] text-cream font-bold uppercase block text-left opacity-0 hero-title-line ">
+                            class="mb-4 md:mb-6 text-lg md:text-[14px] tracking-[0.15em] sm:tracking-[0.25em] text-cream font-bold uppercase block text-left  opacity-0 hero-title-line flex justify-center">
                             PURE &bull; WHOLESOME &bull; AUTHENTIC
                         </span>
                         
                         <!-- Main Title (Unified Premium Serif Theme with spacious block gaps) -->
                         <h1
-                            class="font-serif text-4xl md:text-5xl lg:text-[4.5rem] text-cream tracking-wide select-none leading-[1.1] font-light mt-2">
-                            <span class="block mb-2 hero-title-line opacity-0 text-[0.5em] md:text-[0.45em] font-serif">Goodness in every</span>
-                            <span class="block mb-3 hero-title-line opacity-0 font-bold text-cream uppercase font-serif tracking-widest">FLAKE,</span>
-                            <span class="block mb-2 hero-title-line opacity-0 font-metal text-[#DDA939] text-[1.2em] tracking-normal capitalize italic" style="line-height: 1;">Tradition</span>
-                            <span class="block hero-title-line opacity-0 text-[0.5em] md:text-[0.6em] font-serif">in every bite.</span>
+                            class="font-serif text-[3rem] sm:text-[3.5rem] md:text-[clamp(2.5rem,4.5vw,4.5rem)] text-cream tracking-wide select-none leading-[1.1] font-light mt-2">
+                            <span class="block mb-2 hero-title-line opacity-0 text-[0.45em] md:text-[0.45em] font-serif ml-1">Goodness in every</span>
+                            <span class="block mb-3 hero-title-line opacity-0 font-bold text-cream uppercase font-serif tracking-widest ml-1">FLAKE,</span>
+                            <span class="block mb-2 hero-title-line opacity-0 font-metal text-[#DDA939] text-[1.2em] tracking-normal capitalize italic ml-1" style="line-height: 1;">Tradition</span>
+                            <span class="block hero-title-line opacity-0 text-[0.45em] md:text-[0.6em] font-serif ml-1">in every bite.</span>
                         </h1>
                         
-                        <p class="mt-6 text-cream text-sm md:text-base opacity-0 hero-title-line max-w-sm ml-1 font-sans">
+                        <p class="mt-4 md:mt-6 text-cream text-base sm:text-lg md:text-base opacity-0 hero-title-line max-w-sm ml-2 font-sans">
                             Carefully selected grains, gently flattened<br>to preserve natural nutrition and taste.
                         </p>
 
                         <!-- Stats Block (Three Columns, stacked vertically below icons with cropped whitespace) -->
-                        <div class="relative py-4 my-5 z-10 max-w-md">
+                        <div class="relative py-2 md:py-3 my-2 md:my-3 z-10 w-full max-w-full sm:max-w-[80%] md:max-w-[45%] lg:max-w-[23vw]">
                           
-
-                            <div class="grid grid-cols-3 gap-4">
+                            <div class="grid grid-cols-3 gap-2 md:gap-4 lg:gap-6">
                                 <!-- Col 1: 25+ Years of Trust -->
                                 <div class="flex flex-col items-center text-center relative hero-stat-card opacity-0">
-                                    <div class="w-16 h-14 flex items-center justify-center overflow-visible relative">
+                                    <div class="w-12 md:w-16 lg:w-20 flex items-center justify-center overflow-visible mb-1">
                                         <img src="assets/Icons/trust.webp" alt="Trust"
-                                            class="w-28 h-28 max-w-none object-contain absolute" />
+                                            class="w-full h-full object-contain scale-[1.45] md:scale-[1.6]" />
                                     </div>
-                                    <div class="space-y-0.5 -mt-4 z-10 relative">
-                                        <div class="text-cream font-serif text-lg font-bold tracking-wide">25+</div>
+                                    <div class="space-y-0.5 z-10 relative mt-1">
+                                        <div class="text-cream font-serif text-[clamp(1rem,1.5vw,1.25rem)] font-bold tracking-wide">25+</div>
                                         <div
-                                            class="text-[9px] tracking-widest text-sand-400 uppercase font-bold leading-tight">
+                                            class="text-[9px] md:text-[clamp(7px,0.7vw,10px)] tracking-widest text-sand-400 uppercase font-bold leading-tight">
                                             YEARS OF<br>TRUST</div>
                                     </div>
                                 </div>
 
                                 <!-- Col 2: 100% Natural Goodness -->
                                 <div
-                                    class="flex flex-col items-center text-center relative border-l border-sand-400/25 pl-4 hero-stat-card opacity-0">
-                                    <div class="w-16 h-14 flex items-center justify-center overflow-visible relative">
+                                    class="flex flex-col items-center text-center relative border-l border-sand-400/25 pl-2 md:pl-4 hero-stat-card opacity-0">
+                                    <div class="w-12  md:w-16 lg:w-20 flex items-center justify-center overflow-visible mb-1">
                                         <img src="assets/Icons/natural.webp" alt="Natural"
-                                            class="w-28 h-28 max-w-none object-contain absolute" />
+                                            class="w-full h-full object-contain scale-[1.45] md:scale-[1.6]" />
                                     </div>
-                                    <div class="space-y-0.5 -mt-4 z-10 relative">
-                                        <div class="text-cream font-serif text-lg font-bold tracking-wide">100%</div>
+                                    <div class="space-y-0.5 z-10 relative mt-1">
+                                        <div class="text-cream font-serif text-[clamp(1rem,1.5vw,1.25rem)] font-bold tracking-wide">100%</div>
                                         <div
-                                            class="text-[9px] tracking-widest text-sand-400 uppercase font-bold leading-tight">
+                                            class="text-[9px] md:text-[clamp(7px,0.7vw,10px)] tracking-widest text-sand-400 uppercase font-bold leading-tight">
                                             NATURAL<br>GOODNESS</div>
                                     </div>
                                 </div>
 
                                 <!-- Col 3: 500+ Retail Stores -->
                                 <div
-                                    class="flex flex-col items-center text-center relative border-l border-sand-400/25 pl-4 hero-stat-card opacity-0">
-                                    <div class="w-16 h-14 flex items-center justify-center overflow-visible relative">
+                                    class="flex flex-col items-center text-center relative border-l border-sand-400/25 pl-2 md:pl-4 hero-stat-card opacity-0">
+                                    <div class="w-12  md:w-16 lg:w-20 flex items-center justify-center overflow-visible mb-1">
                                         <img src="assets/Icons/yearsof.webp" alt="Retail"
-                                            class="w-28 h-28 max-w-none object-contain absolute" />
+                                            class="w-full h-full object-contain scale-[1.45] md:scale-[1.6]" />
                                     </div>
-                                    <div class="space-y-0.5 -mt-4 z-10 relative">
-                                        <div class="text-cream font-serif text-lg font-bold tracking-wide">500+</div>
+                                    <div class="space-y-0.5 z-10 relative mt-1">
+                                        <div class="text-cream font-serif text-[clamp(1rem,1.5vw,1.25rem)] font-bold tracking-wide">500+</div>
                                         <div
-                                            class="text-[9px] tracking-widest text-sand-400 uppercase font-bold leading-tight">
+                                            class="text-[9px] md:text-[clamp(7px,0.7vw,10px)] tracking-widest text-sand-400 uppercase font-bold leading-tight">
                                             RETAIL<br>STORES</div>
                                     </div>
                                 </div>
                             </div>
 
-                           
                         </div>
 
                     </div>
-
-                    <div class="w-full h-4"></div>
                 </div>
 
                 <!-- Top-Right Dark Green tab overlay spanning over menu button -->
@@ -854,26 +850,26 @@
                 <!-- Mobile Overlay: solid dark overlay on smaller screens so text content is readable -->
                 <div class="absolute inset-0 bg-[#0b140e]/90 lg:hidden z-10"></div>
 
-                <!-- Layer 2: Form panel – sits inside the dark area (52% width on desktop, full-screen on mobile) -->
-                <div class="absolute inset-0 z-20 flex items-center justify-start ml-0 lg:ml-[7vw] w-full lg:w-[52%]">
-                    <div class="contact-info w-full space-y-6 opacity-0 translate-y-2 px-6 sm:px-12 md:px-16 lg:px-20 py-8">
+                <!-- Layer 2: Form panel – sits inside the dark area -->
+                <div class="absolute inset-0 z-20 flex items-center justify-start w-full lg:w-[55%] xl:w-[50%]">
+                    <div class="contact-info w-full space-y-6 opacity-0 translate-y-2 px-6 sm:px-12 md:pl-20 md:pr-12 lg:pr-16 py-8">
 
                         <!-- Label -->
-                        <div class="space-y-2 mb-4 lg:mb-8">
+                        <div class="space-y-2 mb-4 lg:mb-6">
                             <span
-                                class="text-[14px] lg:text-[20px] font-semibold tracking-[0.3em] text-[#d8c3a5] uppercase block">Contact
+                                class="text-[12px] md:text-[14px] lg:text-[16px] font-semibold tracking-[0.25em] text-[#d8c3a5] uppercase block">Contact
                                 Us</span>
                             <div class="flex items-center gap-2">
-                                <div class="h-px w-[30px] lg:w-[9%] bg-[#b28b5b]/40"></div>
+                                <div class="h-px w-[20px] md:w-[30px] bg-[#b28b5b]/40"></div>
                                 <i class="fa-solid fa-leaf text-[#d8c3a5]/60 text-[8px]"></i>
-                                <div class="h-px w-[30px] lg:w-[9%] bg-[#b28b5b]/40"></div>
+                                <div class="h-px w-[20px] md:w-[30px] bg-[#b28b5b]/40"></div>
                             </div>
                         </div>
 
                         <!-- Heading -->
-                        <div >
-                            <h2 class="font-serif text-5xl lg:text-6xl text-white leading-tight">Let's Start a</h2>
-                            <h2 class="font-serif text-5xl lg:text-6xl text-[#d8c3a5] italic font-light leading-tight">
+                        <div>
+                            <h2 class="font-serif text-[2.5rem] sm:text-[3rem] lg:text-[clamp(3rem,4vw,3.75rem)] text-white leading-tight">Let's Start a</h2>
+                            <h2 class="font-serif text-[2.5rem] sm:text-[3rem] lg:text-[clamp(3rem,4vw,3.75rem)] text-[#d8c3a5] italic font-light leading-tight">
                                 Conversation</h2>
                         </div>
 
