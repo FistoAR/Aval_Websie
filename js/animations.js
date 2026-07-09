@@ -3,6 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Register GSAP Plugins
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
     
+    // Initialize Lenis for global momentum
+    if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            smoothTouch: false,
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
+    }
+    
     // Wipe GSAP scroll memory caching on load
     if (typeof ScrollTrigger.clearScrollMemory === 'function') {
         ScrollTrigger.clearScrollMemory();
@@ -469,22 +487,41 @@ document.addEventListener("DOMContentLoaded", () => {
     // 9. Scroll Sequence Animation
     const sequenceContainer = document.querySelector(".sequence-container");
     const canvas = document.getElementById("sequence-canvas");
+    
+    // Setup Audio
+    const frameAudio = new Audio('assets/frame audio.mp3');
+    frameAudio.loop = true;
+    frameAudio.volume = 0.04; // mild volume (0.3 is 30%)
+    
+    const playFrameAudio = () => {
+        frameAudio.play().catch(e => console.log("Audio play blocked:", e));
+    };
+    const pauseFrameAudio = () => {
+        frameAudio.pause();
+        frameAudio.currentTime = 0;
+    };
+
     if (sequenceContainer && canvas) {
         const ctx = canvas.getContext("2d");
 
         // Define canvas dimensions dynamically with High DPI support
+        let canvasWidth = window.innerWidth;
+        let canvasHeight = window.innerHeight;
+        
         const setCanvasSize = () => {
             const dpr = window.devicePixelRatio || 1;
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            canvas.style.width = `${window.innerWidth}px`;
-            canvas.style.height = `${window.innerHeight}px`;
+            canvasWidth = window.innerWidth;
+            canvasHeight = window.innerHeight;
+            canvas.width = canvasWidth * dpr;
+            canvas.height = canvasHeight * dpr;
+            canvas.style.width = `${canvasWidth}px`;
+            canvas.style.height = `${canvasHeight}px`;
             ctx.scale(dpr, dpr);
-            render();
+            render(true); // force render on resize
         };
 
         const frameCount = 240;
-        const currentFrame = index => `assets/frames/${String(index + 1).padStart(5, '0')}.webp`;
+        const currentFrameUrl = index => `assets/frames/${String(index + 1).padStart(5, '0')}.webp`;
 
         // Preload images
         const images = [];
@@ -494,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const loadImages = () => {
             for (let i = 0; i < frameCount; i++) {
                 const img = new Image();
-                img.src = currentFrame(i);
+                img.src = currentFrameUrl(i);
                 img.onload = () => {
                     loadedCount++;
                     if (loadedCount === frameCount) {
@@ -507,28 +544,30 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        const render = () => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            ctx.clearRect(0, 0, width, height);
+        let lastFrame = -1;
+        const render = (force = false) => {
+            const currentFrameNum = Math.round(playhead.frame);
+            if (!force && currentFrameNum === lastFrame) return; // Prevent excessive redraws
+            lastFrame = currentFrameNum;
+
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
             
-            // Round playhead for smooth frame picking without GSAP snapping
-            const img = images[Math.round(playhead.frame)];
+            const img = images[currentFrameNum];
             if (img && img.complete) {
                 // Object-cover aspect ratio fit
-                const canvasAspect = width / height;
+                const canvasAspect = canvasWidth / canvasHeight;
                 const imgAspect = img.width / img.height;
                 let drawWidth, drawHeight, drawX, drawY;
 
                 if (canvasAspect > imgAspect) {
-                    drawWidth = width;
-                    drawHeight = width / imgAspect;
+                    drawWidth = canvasWidth;
+                    drawHeight = canvasWidth / imgAspect;
                     drawX = 0;
-                    drawY = (height - drawHeight) / 2;
+                    drawY = (canvasHeight - drawHeight) / 2;
                 } else {
-                    drawWidth = height * imgAspect;
-                    drawHeight = height;
-                    drawX = (width - drawWidth) / 2;
+                    drawWidth = canvasHeight * imgAspect;
+                    drawHeight = canvasHeight;
+                    drawX = (canvasWidth - drawWidth) / 2;
                     drawY = 0;
                 }
 
@@ -544,9 +583,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     trigger: sequenceContainer,
                     start: "top top",
                     end: "+=3500",
-                    scrub: 0.5, // Reduced scrub delay for tighter, smoother tracking
+                    scrub: true, // Let Lenis handle the smoothing natively without GSAP delay
                     pin: true,
-                    onUpdate: render
+                    onUpdate: render,
+                    onEnter: playFrameAudio,
+                    onLeave: pauseFrameAudio,
+                    onEnterBack: playFrameAudio,
+                    onLeaveBack: pauseFrameAudio
                 }
             });
             ScrollTrigger.sort();
