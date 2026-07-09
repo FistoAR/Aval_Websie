@@ -87,9 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 mobileMenu.classList.add('translate-x-full');
             }
 
+            let offset = 0;
+            // The contact section has a 2000px pinned animation. We want to land at the end of it so it's fully visible.
+            if (target.id === 'contact') {
+                offset = -2000;
+            }
+
             gsap.to(window, {
                 duration: 1.2,
-                scrollTo: { y: target, offsetY: 0 },
+                scrollTo: { y: target, offsetY: offset },
                 ease: "power3.inOut"
             });
         });
@@ -812,4 +818,26 @@ document.addEventListener("DOMContentLoaded", () => {
     
     initNavFlower("nav-flower-left");
     initNavFlower("nav-flower-right");
+
+    // 14. Back to Top Button Logic
+    const backToTopBtn = document.getElementById("back-to-top");
+    if (backToTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > window.innerHeight) {
+                backToTopBtn.classList.remove("opacity-0", "pointer-events-none");
+                backToTopBtn.classList.add("opacity-100", "pointer-events-auto");
+            } else {
+                backToTopBtn.classList.remove("opacity-100", "pointer-events-auto");
+                backToTopBtn.classList.add("opacity-0", "pointer-events-none");
+            }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+            gsap.to(window, {
+                duration: 1.2,
+                scrollTo: { y: 0 },
+                ease: "power3.inOut"
+            });
+        });
+    }
 });
